@@ -15,7 +15,9 @@
                         <option value="" selected>Order A-Z</option>
                         <option value="">Order Z-A</option>
                     </select>
-                    <button class="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded-lg">New Project</button>
+                    <form action="{{route('projects.create')}}">
+                        <button class="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded-lg">New Project</button>
+                    </form>
                 </div>
                 <!-- display projects -->
                 <div class="flex flex-col md:flex-row">
