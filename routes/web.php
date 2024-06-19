@@ -29,3 +29,4 @@ Route::middleware([
 });
 
 Route::get('/projects/create',[ProjectController::class,'create'])->name('projects.create');
+Route::post('/projects/create',[ProjectController::class,'store']);
