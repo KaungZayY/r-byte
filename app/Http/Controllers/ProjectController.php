@@ -34,7 +34,7 @@ class ProjectController extends Controller
             }
         } catch (\Exception $e) 
         {
-            return redirect()->route('dashboard')->dangerBanner($e);
+            return redirect()->route('dashboard')->dangerBanner('An Error Occured');
         }
     }
 }
