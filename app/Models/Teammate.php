@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Teammate extends Model
 {
     use HasFactory,SoftDeletes;
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class,'team_id','id');
+    }
 }
