@@ -1,10 +1,11 @@
 <div>
     <!-- search box and sort-->
     <div class="flex flex-row mb-8 m-1">
-        <input type="text" name="search" id="search" class="w-4/5 mr-1 px-4 py-2 border rounded-lg bg-white text-black dark:text-white dark:bg-black focus:outline-none focus:border-blue-500 dark:focus:border-white" placeholder="Search &#x1F50E;&#xFE0F; ..... "/>
-        <select name="" id="" class="rounded-lg bg-white text-black mr-1 dark:text-white dark:bg-black focus:outline-none focus:border-blue-500 dark:focus:border-white">
-            <option value="" selected>Order A-Z</option>
-            <option value="">Order Z-A</option>
+        <input wire:model.live="search" type="text" name="search" id="search" class="w-4/5 mr-1 px-4 py-2 border rounded-lg bg-white text-black dark:text-white dark:bg-black focus:outline-none focus:border-blue-500 dark:focus:border-white" placeholder="Search &#x1F50E;&#xFE0F; ..... "/>
+        <select wire:model.live="sort" name="sort" id="sort" class="rounded-lg bg-white text-black mr-1 dark:text-white dark:bg-black focus:outline-none focus:border-blue-500 dark:focus:border-white">
+            <option value="" selected>Sort by</option>
+            <option value="ASC">Order A-Z</option>
+            <option value="DESC">Order Z-A</option>
         </select>
         <form action="{{route('projects.create')}}">
             <button class="bg-green-500 hover:bg-green-700 text-white px-2 py-2 rounded-lg">New Project</button>
