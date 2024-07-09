@@ -12,22 +12,24 @@
         </form>
     </div>
     <!-- display projects -->
-    <div class="flex flex-col md:flex-row">
+    <div class="flex flex-col md:flex-row flex-wrap">
         @foreach ($projects as $project)
-            <div x-data="{ open: false }" x-cloak class="w-full h-auto relative md:w-1/2 lg:w-1/3 flex flex-col rounded-lg bg-white px-6 py-4 m-1 text-black dark:text-white dark:bg-black border border-gray-400 dark:border-gray-600">
-                <div class="flex flex-row justify-between mt-2">
-                    <h1 class="text-xl text-green-500">{{$project->project_name}}</h1>
-                    <button x-on:click="open = ! open">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="4" viewBox="0 0 128 512"><path fill="#4b5563" d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>
-                    </button>
+            <div x-data="{ open: false }" x-cloak class="w-full h-auto relative md:w-1/2 lg:w-1/3 flex flex-col px-1 py-1 text-black ">
+                <div class="rounded-lg bg-white dark:text-white dark:bg-black border border-gray-400 dark:border-gray-600 px-4 py-2">
+                    <div class="flex flex-row justify-between mt-2">
+                        <h1 class="text-xl text-green-500">{{$project->project_name}}</h1>
+                        <button x-on:click="open = ! open">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16" width="4" viewBox="0 0 128 512"><path fill="#4b5563" d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>
+                        </button>
+                    </div>
+                    <div x-show="open" class="flex flex-col absolute inset-0 z-20 right-6 top-14 items-end">
+                        <button class="bg-green-500 text-white px-2 py-1 mb-1 rounded-md w-20">Edit</button>
+                        <button class="bg-red-500 text-white px-2 py-1 mb-1 rounded-md w-20">Delete</button>
+                    </div>
+                    <p class="text-base mt-2 h-24 overflow-hidden">{{$project->description}}</p>
+                    <p class="text-sm underline text-gray-700 dark:text-gray-500 mt-2">From: {{$project->start_date}} To: {{$project->end_date}}</p>
+                    <p class="text-sm italic text-gray-700 dark:text-gray-500 mt-1 mb-1">Created by {{$project->user->name}}</p>
                 </div>
-                <div x-show="open" class="flex flex-col absolute inset-0 z-20 right-6 top-14 items-end">
-                    <button class="bg-green-500 text-white px-2 py-1 mb-1 rounded-md w-20">Edit</button>
-                    <button class="bg-red-500 text-white px-2 py-1 mb-1 rounded-md w-20">Delete</button>
-                </div>
-                <p class="text-base mt-2">{{$project->description}}</p>
-                <p class="text-sm underline text-gray-700 dark:text-gray-500 mt-2">From: {{$project->start_date}} To: {{$project->end_date}}</p>
-                <p class="text-sm italic text-gray-700 dark:text-gray-500 mt-1 mb-2">Created by {{$project->user->name}}</p>
             </div>
         @endforeach
     </div>
