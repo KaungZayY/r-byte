@@ -23,7 +23,9 @@
                         </button>
                     </div>
                     <div x-show="open" class="flex flex-col absolute inset-0 z-20 right-6 top-14 items-end">
-                        <button class="bg-green-500 text-white px-2 py-1 mb-1 rounded-md w-20">Edit</button>
+                        <form action="{{route('projects.edit',$project)}}" method="GET">
+                            <button class="bg-green-500 text-white px-2 py-1 mb-1 rounded-md w-20">Edit</button>
+                        </form>
                         <button class="bg-red-500 text-white px-2 py-1 mb-1 rounded-md w-20">Delete</button>
                     </div>
                     <p class="text-base mt-2 h-24 overflow-hidden">{{$project->description}}</p>

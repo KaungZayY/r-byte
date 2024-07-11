@@ -30,3 +30,5 @@ Route::middleware([
 
 Route::get('/projects/create',[ProjectController::class,'create'])->name('projects.create');
 Route::post('/projects/create',[ProjectController::class,'store']);
+Route::get('/projects/edit{project}',[ProjectController::class,'edit'])->name('projects.edit');
+Route::put('/projects/edit{project}',[ProjectController::class,'update']);

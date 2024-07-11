@@ -33,4 +33,20 @@ class ProjectController extends Controller
             return redirect()->route('dashboard')->dangerBanner('An Error Occured');
         }
     }
+
+    public function edit(Project $project)
+    {
+        return view('projects.edit-project',compact('project'));
+    }
+
+    public function update(ProjectRequest $request, Project $project)
+    {
+        try{
+            $project->update($request->validated());
+            return redirect()->route('dashboard')->banner('Project Detail Updated.');
+        }
+        catch(\Exception $e){
+            return redirect()->route('dashboard')->dangerBanner('Cannot Update the Project Detail');
+        }
+    }
 }
