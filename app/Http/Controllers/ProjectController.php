@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectDeleteRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -48,5 +49,15 @@ class ProjectController extends Controller
         catch(\Exception $e){
             return redirect()->route('dashboard')->dangerBanner('Cannot Update the Project Detail');
         }
+    }
+
+    public function delete(Project $project)
+    {
+        return view('projects.delete-project',compact('project'));
+    }
+
+    public function destroy(ProjectDeleteRequest $request, Project $project)
+    {
+
     }
 }
