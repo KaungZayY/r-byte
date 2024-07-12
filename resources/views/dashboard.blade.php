@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-black overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="dark:bg-black overflow-hidden">
                 <livewire:dashboard/>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 text-center leading-tight">
             {{ __('Create New Project') }}
         </h2>
     </x-slot>
@@ -11,7 +11,7 @@
                 <form action="{{route('projects.create')}}" method="POST">
                     @csrf
                     <div class="px-16 md:px-40 lg:px-80">
-                        <div>
+                        <div class="mt-4">
                             <x-label for="project_name" value="{{ __('Project Name') }}" />
                             <x-input id="project_name" class="block mt-1 w-full" type="text" name="project_name" :value="old('name')" autofocus autocomplete="project_name" />
                             @error('project_name')
