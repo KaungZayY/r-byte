@@ -23,7 +23,8 @@ class ProjectDeleteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project_name' => ['required','string','max:255','exists:projects,project_name']
+            'project_name' => ['required','string','max:255'],
+            'confirm_delete' => ['required']
         ];
     }
 
@@ -32,7 +33,7 @@ class ProjectDeleteRequest extends FormRequest
         return [
             'project_name.required' => 'The project name is required.',
             'project_name.string' => 'The project name must be a string.',
-            'project_name.exists' => 'The project name does not match.'
+            'confirm_delete' => 'You must confirm that this action cannot be undone.'
         ];
     }
 }

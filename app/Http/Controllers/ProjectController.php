@@ -58,6 +58,19 @@ class ProjectController extends Controller
 
     public function destroy(ProjectDeleteRequest $request, Project $project)
     {
-
+        $validated = $request->validated();
+        $project_name = $validated['project_name'];
+        if($project_name != $project->project_name){
+            return redirect()->route('projects.delete',$project)->withErrors([
+                'project_name' => 'The project name does not match.'
+            ]);
+        }
+        
+        try {
+            $project->delete();
+            return redirect()->route('dashboard')->banner('Project Deleted');
+        } catch (\Exception $e) {
+            return redirect()->route('dashboard')->dangerBanner('Cannot Delete the Project');
+        }
     }
 }

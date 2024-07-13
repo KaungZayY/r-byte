@@ -8,14 +8,23 @@
     <div class="py-16">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-black overflow-hidden shadow-xl sm:rounded-lg">
-                <form action="#" method="POST">
+                <form action="{{route('projects.delete',$project)}}" method="POST">
                     @csrf
-                    @method('PUT')
+                    @method('DELETE')
                     <div class="px-16 md:px-40 lg:px-80 py-4">
                         <div class="mt-4">
                             <x-label for="project_name" value="{{ __('Retype Project Name Again') }}" class="uppercase text-2xl" />
                             <x-input id="project_name" class="block mt-1 w-full" type="text" name="project_name" value="" autofocus autocomplete="project_name" />
                             @error('project_name')
+                                <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <label for="confirm_delete" class="flex items-center">
+                                <input id="confirm_delete" type="checkbox" name="confirm_delete" class="mr-2">
+                                <span class="text-sm text-gray-700 dark:text-gray-300">{{ __('Delete Project? Action cannot be undone') }}</span>
+                            </label>
+                            @error('confirm_delete')
                                 <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                             @enderror
                         </div>
