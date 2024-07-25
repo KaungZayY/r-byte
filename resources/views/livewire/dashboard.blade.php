@@ -19,7 +19,7 @@
             <div x-data="{ open: false }" x-cloak class="w-full h-auto relative md:w-1/2 lg:w-1/3 flex flex-col px-1 py-1 text-black ">
                 <div class="rounded-lg bg-white dark:text-white dark:bg-black border border-gray-400 dark:border-gray-600 px-4 py-2">
                     <div class="flex flex-row justify-between mt-2">
-                        <a href="#" class="text-xl text-green-500 hover:underline">{{ $project->project_name }}</a>
+                        <a href="{{route('projects.detail',$project)}}" class="text-xl text-green-500 hover:underline">{{ $project->project_name }}</a>
                         <button x-on:click="open = ! open">
                             <svg xmlns="http://www.w3.org/2000/svg" height="16" width="4" viewBox="0 0 128 512"><path fill="#4b5563" d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/></svg>
                         </button>

@@ -73,4 +73,9 @@ class ProjectController extends Controller
             return redirect()->route('dashboard')->dangerBanner('Cannot Delete the Project');
         }
     }
+
+    public function detail(Project $project)
+    {
+        return view('projects.details-project',compact('project'));
+    }
 }
