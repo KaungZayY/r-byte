@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BacklogController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,3 +36,5 @@ Route::put('/projects/edit{project}',[ProjectController::class,'update']);
 Route::get('/projects/delete{project}',[ProjectController::class,'delete'])->name('projects.delete');
 Route::delete('/projects/delete{project}',[ProjectController::class,'destroy']);
 Route::get('/projects/details{project}',[ProjectController::class,'detail'])->name('projects.detail');
+
+Route::get('/backlogs/create{project}',[BacklogController::class,'create'])->name('backlogs.create');
