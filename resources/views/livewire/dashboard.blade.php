@@ -16,7 +16,7 @@
     <!-- display projects -->
     <div class="flex flex-col md:flex-row flex-wrap">
         @foreach ($projects as $project)
-            <div x-data="{ open: false }" x-cloak class="w-full h-auto relative md:w-1/2 lg:w-1/3 flex flex-col px-1 py-1 text-black ">
+            <div x-data="{ open: false }" x-cloak class="w-full h-auto relative md:w-1/2 lg:w-1/3 flex flex-col px-2 py-2 text-black transition duration-300 ease-in-out transform hover:scale-105">
                 <div class="rounded-lg bg-white dark:text-white dark:bg-black border border-gray-400 dark:border-gray-600 px-4 py-2">
                     <div class="flex flex-row justify-between mt-2">
                         <a href="{{route('projects.detail',$project)}}" class="text-xl text-green-500 hover:underline">{{ $project->project_name }}</a>
