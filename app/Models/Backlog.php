@@ -10,6 +10,13 @@ class Backlog extends Model
 {
     use HasFactory,SoftDeletes;
 
+    protected $fillable = [
+        'project_id',
+        'backlog',
+        'description',
+        'created_by'
+    ];
+
     public function project()
     {
         return $this->belongsTo(Project::class,'project_id','id');

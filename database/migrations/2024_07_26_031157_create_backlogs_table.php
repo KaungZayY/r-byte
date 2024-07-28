@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('project_id');
             $table->string('backlog');
+            $table->string('description')->nullable();
             $table->integer('created_by');
             $table->timestamps();
             $table->softDeletes();
