@@ -37,5 +37,6 @@ Route::get('/projects/delete{project}',[ProjectController::class,'delete'])->nam
 Route::delete('/projects/delete{project}',[ProjectController::class,'destroy']);
 Route::get('/projects/details{project}',[ProjectController::class,'detail'])->name('projects.detail');
 
+Route::get('/backlogs/index{project}',[BacklogController::class,'index'])->name('backlogs');
 Route::get('/backlogs/create{project}',[BacklogController::class,'create'])->name('backlogs.create');
 Route::post('/backlogs/create{project}',[BacklogController::class,'store']);

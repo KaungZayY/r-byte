@@ -26,4 +26,9 @@ class Project extends Model
     {
         return $this->hasMany(Team::class,'project_id','id');
     }
+
+    public function backlogs()
+    {
+        return $this->hasMany(Backlog::class,'project_id','id');
+    }
 }
