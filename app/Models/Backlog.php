@@ -21,4 +21,9 @@ class Backlog extends Model
     {
         return $this->belongsTo(Project::class,'project_id','id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'created_by','id');
+    }
 }
