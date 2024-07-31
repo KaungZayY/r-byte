@@ -40,3 +40,9 @@ Route::get('/projects/details{project}',[ProjectController::class,'detail'])->na
 Route::get('/backlogs/index{project}',[BacklogController::class,'index'])->name('backlogs');
 Route::get('/backlogs/create{project}',[BacklogController::class,'create'])->name('backlogs.create');
 Route::post('/backlogs/create{project}',[BacklogController::class,'store']);
+Route::get('/backlogs/edit{backlog}',[BacklogController::class,'edit'])->name('backlogs.edit');
+Route::post('/backlogs/edit{backlog}',[BacklogController::class,'update']);
+Route::delete('/backlogs/delete{backlog}',[BacklogController::class,'destroy'])->name('backlogs.delete');
+Route::get('/backlogs/archives{project}',[BacklogController::class,'archives'])->name('backlogs.archives');
+Route::delete('/backlogs/force-delete{id}',[BacklogController::class,'forceRemove'])->name('backlogs.force');
+Route::patch('//backlogs/restore{id}', [BacklogController::class, 'restore'])->name('backlogs.restore');
