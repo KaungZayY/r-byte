@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BacklogController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,3 +47,7 @@ Route::delete('/backlogs/delete{backlog}',[BacklogController::class,'destroy'])-
 Route::get('/backlogs/archives{project}',[BacklogController::class,'archives'])->name('backlogs.archives');
 Route::delete('/backlogs/force-delete{id}',[BacklogController::class,'forceRemove'])->name('backlogs.force');
 Route::patch('//backlogs/restore{id}', [BacklogController::class, 'restore'])->name('backlogs.restore');
+
+Route::get('/teams/index{project}',[TeamController::class,'index'])->name('teams');
+Route::get('/teams/create{project}',[TeamController::class,'create'])->name('teams.create');
+Route::post('/teams/create{project}',[TeamController::class,'store']);

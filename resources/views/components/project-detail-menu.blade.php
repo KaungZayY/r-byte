@@ -5,7 +5,7 @@
         {{ $project->project_name ?? 'Project Name' }}
     </a>
     <div class="flex flex-wrap justify-start md:justify-end space-x-2">
-        <form action="#" method="GET">
+        <form action="{{route('teams',$project)}}" method="GET">
             <button class="{{ $active === 'teams' ? 'bg-white text-indigo-600 border-2 border-indigo-600 dark:bg-gray-800 dark:text-indigo-400 dark:border-indigo-400' : 'bg-indigo-600 dark:bg-indigo-400 text-white dark:text-gray-900' }} hover:bg-indigo-700 dark:hover:bg-indigo-500 font-bold py-2 px-4 sm:px-6 rounded-md shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1">
                 Teams
             </button>
