@@ -41,4 +41,64 @@ class TeamController extends Controller
             return redirect()->route('teams',$project)->dangerBanner('An Error Occured');
         }
     }
+
+    public function edit(Team $team)
+    {
+        $project = $team->project;
+        return view('teams.edit-team',compact('team','project'));
+    }
+
+    public function update(Team $team, TeamRequest $request)
+    {
+        try{
+            $team->update($request->validated());
+            return redirect()->route('teams',$team->project)->banner('Team Updated.');
+        }
+        catch(\Exception $e){
+            return redirect()->route('teams',$team->project)->dangerBanner('Cannot Update the Team');
+        }
+    }
+
+    public function destroy(Team $team)
+    {
+        if ($team->teammates()->exists()) {
+            return redirect()->route('teams',$team->project)->dangerBanner('Remove the teammates first!');
+        }
+
+        try {
+            $deleted = $team->delete();
+
+            if (!$deleted) {
+                return redirect()->route('teams',$team->project)->dangerBanner('Cannot remove this team.');
+            }
+
+            return redirect()->route('teams',$team->project)->banner('Team archived successfully.');
+        } 
+        catch (\Exception $e) 
+        {
+            return redirect()->route('teams',$team->project)->dangerBanner('Cannot remove this team.');
+        }
+    }
+
+    public function archives(Project $project)
+    {
+        $teams = $project->teams()->onlyTrashed()->with('user')->get();
+        $count = $project->teams()->onlyTrashed()->count();
+        return view('teams.archives-team',compact('teams','project','count'));
+    }
+
+    public function forceRemove($id)
+    {
+        $team = Team::withTrashed()->findOrFail($id);
+        $project = $team->project;
+        $team->forceDelete();
+        return redirect()->route('teams.archives', $project)->banner('Team Deleted.');
+    }
+
+    public function restore($id)
+    {
+        $team = Team::withTrashed()->findOrFail($id);
+        $team->restore();
+        return redirect()->route('teams', $team->project)->banner('Team Restored.');
+    }
 }

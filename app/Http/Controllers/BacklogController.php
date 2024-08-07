@@ -95,6 +95,6 @@ class BacklogController extends Controller
     {
         $backlog = Backlog::withTrashed()->findOrFail($id);
         $backlog->restore();
-        return redirect()->route('backlogs', $backlog->project)->banner('Backlog Deleted.');
+        return redirect()->route('backlogs', $backlog->project)->banner('Backlog Restored.');
     }
 }
