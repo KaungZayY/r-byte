@@ -29,7 +29,7 @@
             </div>
             <div class="flex flex-row flex-wrap">
                 @foreach ($teams as $team)
-                    <a href="#" x-data="{ open: false }" x-cloak class="w-full h-auto relative sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col px-1.5 py-1.5 text-black transition duration-300 ease-in-out transform hover:scale-105">
+                    <a href="{{route('teammates',$team)}}" x-data="{ open: false }" x-cloak class="w-full h-auto relative sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col px-1.5 py-1.5 text-black transition duration-300 ease-in-out transform hover:scale-105">
                         <div class="rounded-lg bg-white dark:text-white dark:bg-black border border-gray-400 dark:border-gray-600 px-4 py-2">
                             <div class="flex flex-row justify-between mt-2">
                                 <p class="text-xl text-indigo-600">{{ $team->team_name }}</p>

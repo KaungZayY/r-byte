@@ -3,6 +3,7 @@
 use App\Http\Controllers\BacklogController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeammateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,3 +58,5 @@ Route::delete('/teams/delete{team}',[TeamController::class,'destroy'])->name('te
 Route::get('/teams/archives{project}',[TeamController::class,'archives'])->name('teams.archives');
 Route::delete('/teams/force-delete{id}',[TeamController::class,'forceRemove'])->name('teams.force');
 Route::patch('/teams/restore{id}', [TeamController::class, 'restore'])->name('teams.restore');
+
+Route::get('/team/members/list{team}',[TeammateController::class,'index'])->name('teammates');
