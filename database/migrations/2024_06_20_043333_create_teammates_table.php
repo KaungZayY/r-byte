@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('team_id');
             $table->integer('user_id');
-            $table->integer('role_id');
+            $table->integer('role_id')->nullable();
+            $table->integer('invited_by');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

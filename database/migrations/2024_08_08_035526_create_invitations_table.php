@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('token');
             $table->integer('team_id');
+            $table->integer('invited_by');
             $table->timestamps();
         });
     }
