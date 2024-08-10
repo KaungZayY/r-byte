@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BacklogController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeammateController;
@@ -60,3 +61,7 @@ Route::delete('/teams/force-delete{id}',[TeamController::class,'forceRemove'])->
 Route::patch('/teams/restore{id}', [TeamController::class, 'restore'])->name('teams.restore');
 
 Route::get('/team/members/list{team}',[TeammateController::class,'index'])->name('teammates');
+
+Route::get('/team/members/add{team}',[InvitationController::class,'index'])->name('invites');
+Route::post('/team/members/add{team}',[InvitationController::class,'sentInvite']);
+Route::get('/accept-invite/{token}', [InvitationController::class, 'acceptInvite'])->name('invite.accept');
