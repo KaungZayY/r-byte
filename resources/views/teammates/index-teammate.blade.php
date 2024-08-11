@@ -74,7 +74,7 @@
                                     </div>
                                     <span class="ml-2 mr-2">|</span>
                                     <div class="inline-block">
-                                        <form action="#" method="POST" onsubmit="return confirm('Move this member from team?');">
+                                        <form action="{{route('teammates.delete',$teammate)}}" method="POST" onsubmit="return confirm('Move this member from team?');">
                                             @csrf
                                             @method('DELETE')
                                             <button title="Remove">
