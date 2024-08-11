@@ -61,6 +61,8 @@ Route::delete('/teams/force-delete{id}',[TeamController::class,'forceRemove'])->
 Route::patch('/teams/restore{id}', [TeamController::class, 'restore'])->name('teams.restore');
 
 Route::get('/team/members/list{team}',[TeammateController::class,'index'])->name('teammates');
+Route::get('/team/members/assign{teammate}',[TeammateController::class,'addRole'])->name('roles.assign');
+Route::post('/team/members/assign{teammate}',[TeammateController::class,'assignRole']);
 
 Route::get('/team/members/add{team}',[InvitationController::class,'index'])->name('invites');
 Route::post('/team/members/add{team}',[InvitationController::class,'sentInvite']);
