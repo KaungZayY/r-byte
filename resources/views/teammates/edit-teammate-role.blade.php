@@ -23,7 +23,7 @@
                             @enderror
                         </div>
                         <div class="mt-2 flex justify-end">
-                            <x-button-cancel :cancelRoute="route('teammates',$team)">
+                            <x-button-cancel :cancelRoute="route('teammates',$teammate->team)">
                                 {{__('Cancel')}}
                             </x-button-cancel>
                             <x-button class="ms-2">

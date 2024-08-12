@@ -19,11 +19,10 @@ class TeammateController extends Controller
 
     public function addRole(Teammate $teammate)
     {
-        $teammate->load('user');
-        $roles = Role::all();
-        $team = $teammate->team;
-        $project = $team->project;
-        return view('teammates.edit-teammate-role',compact('teammate','project','team','roles'));
+        $teammate->load('user')->load('team');
+        $project = $teammate->team->project;
+        $roles = Role::where('project_id',$project->id)->get();
+        return view('teammates.edit-teammate-role',compact('teammate','project','roles'));
     }
 
     public function assignRole(Request $request, Teammate $teammate)
