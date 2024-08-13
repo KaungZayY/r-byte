@@ -59,13 +59,14 @@ class InvitationController extends Controller
     {
         $invitation = Invitation::where('token', $token)->firstOrFail();
         $user = User::where('email', $invitation->email)->firstOrFail();
-
+        $teamName = $invitation->team->team_name;
         $existingTeammate = Teammate::where('team_id', $invitation->team_id)->where('user_id', $user->id)->first();
 
         if ($existingTeammate) 
         {
-            return redirect()->route('teammates',$invitation->team_id)->banner('You are already a member of this team.');
             $invitation->delete();
+            $messageType = 'already_member';
+            return view('invitations.message-invitation',compact('teamName','messageType'));
         }
 
 
@@ -76,14 +77,12 @@ class InvitationController extends Controller
                 'invited_by' => $invitation->invited_by
             ]);
             $invitation->delete();
-            if(!auth()->check()) 
-            {
-                return redirect()->route('login')->banner('You have joined the team. Login again!');
-            }
-            return redirect()->route('teammates',$invitation->team_id)->banner('You have joined the team.');
+            $messageType = 'successful';
+            return view('invitations.message-invitation',compact('teamName','messageType'));
 
         } catch (\Exception $e) {
-            return redirect()->route('invites',$invitation->team_id)->dangerBanner('The link is no longer vaild.');
+            $messageType = 'invalid';
+            return view('invitations.message-invitation',compact('teamName'));
         }
     }
 }
