@@ -21,7 +21,7 @@ class TeammateController extends Controller
     {
         $teammate->load('user')->load('team');
         $project = $teammate->team->project;
-        $roles = Role::where('project_id',$project->id)->get();
+        $roles = Role::where('team_id',$teammate->team->id)->get();
         return view('teammates.edit-teammate-role',compact('teammate','project','roles'));
     }
 
