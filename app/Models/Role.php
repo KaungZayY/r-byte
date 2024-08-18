@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Role extends Model
 {
     use HasFactory,SoftDeletes;
+
+    protected $fillable = [
+        'team_id',
+        'role_name'
+    ];
 }

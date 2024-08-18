@@ -3,6 +3,7 @@
 use App\Http\Controllers\BacklogController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeammateController;
 use Illuminate\Support\Facades\Route;
@@ -68,3 +69,6 @@ Route::delete('/teams/members/remove{teammate}',[TeammateController::class,'dest
 Route::get('/team/members/add{team}',[InvitationController::class,'index'])->name('invites');
 Route::post('/team/members/add{team}',[InvitationController::class,'sentInvite']);
 Route::get('/accept-invite/{token}', [InvitationController::class, 'acceptInvite'])->name('invite.accept');
+
+Route::get('/team/roles/add{team}',[RoleController::class,'create'])->name('roles.create');
+Route::post('/team/roles/add{team}',[RoleController::class,'store']);
