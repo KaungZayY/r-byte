@@ -31,4 +31,9 @@ class Project extends Model
     {
         return $this->hasMany(Backlog::class,'project_id','id');
     }
+
+    public function sprints()
+    {
+        return $this->hasMany(Sprint::class, 'project_id', 'id');
+    }
 }

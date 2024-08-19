@@ -15,7 +15,7 @@
                 Backlogs
             </button>
         </form>
-        <form action="#" method="GET">
+        <form action="{{route('sprints',$project)}}" method="GET">
             <button class="{{ $active === 'sprints' ? 'bg-white text-purple-600 border-2 border-purple-600 dark:bg-gray-800 dark:text-purple-400 dark:border-purple-400' : 'bg-purple-600 dark:bg-purple-400 text-white dark:text-gray-900' }} hover:bg-purple-700 dark:hover:bg-purple-500 font-bold py-2 px-4 sm:px-6 rounded-md shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1">
                 Sprints
             </button>
