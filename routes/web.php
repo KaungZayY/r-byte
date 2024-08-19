@@ -77,3 +77,4 @@ Route::post('/team/roles/add{team}',[RoleController::class,'store']);
 Route::get('/project{project}/sprints',[SprintController::class,'index'])->name('sprints');
 Route::get('/project{project}/sprint/create',[SprintController::class,'create'])->name('sprints.create');
 Route::post('/project{project}/sprint/create',[SprintController::class,'store']);
+Route::put('/sprint{sprint}/start',[SprintController::class,'startSprint'])->name('sprints.start');

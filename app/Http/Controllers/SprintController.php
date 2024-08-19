@@ -28,6 +28,21 @@ class SprintController extends Controller
         try {
             $sprintStartDate = Carbon::parse($validated['sprint_start_date']);
             $sprintEndDate = Carbon::parse($validated['sprint_end_date']);
+
+            $conflictingSprints = Sprint::where('project_id', $project->id)
+            ->where(function($query) use ($sprintStartDate, $sprintEndDate) {
+                $query->where(function($subQuery) use ($sprintStartDate, $sprintEndDate) {
+                    $subQuery->where('sprint_start_date', '<=', $sprintEndDate)
+                             ->where('sprint_end_date', '>=', $sprintStartDate);
+                });
+            })
+            ->exists();
+
+            if ($conflictingSprints) {
+                return redirect()->route('sprints', $project)
+                    ->dangerBanner('A sprint with overlapping dates already exists. Please choose different dates.');
+            }
+
             Sprint::create([
                 'project_id' => $project->id,
                 'sprint_name' => $validated['sprint_name'],
@@ -45,5 +60,14 @@ class SprintController extends Controller
         {
             return redirect()->route('sprints',$project)->dangerBanner('An Error Occured');
         }
+    }
+
+    public function startSprint(Sprint $sprint)
+    {
+        $project = $sprint->project;
+        Sprint::where('project_id', $project->id)->where('status', 'active')->update(['status' => 'completed']);
+        $sprint->status = 'active';
+        $sprint->save();
+        return redirect()->route('sprints',$project)->banner('New Sprint has Successfully Started!.');
     }
 }

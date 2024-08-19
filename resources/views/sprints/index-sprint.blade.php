@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-3">
                 <p class="text-sm leading-6 font-medium text-gray-900 dark:text-white">
                     Total Sprints : {{ $count }}
@@ -29,6 +29,9 @@
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-800">
                         <tr>
+                            <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                
+                            </th>
                             <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 Sprint
                             </th>
@@ -56,6 +59,19 @@
                         @foreach ($sprints as $sprint)
                             <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
                                 <td class="px-4 py-4 max-w-xs text-sm font-medium text-gray-900 dark:text-white text-center">
+                                    @if ($sprint->status === 'inactive')
+                                    <form action="{{route('sprints.start',$sprint)}}" method="POST" onsubmit="return confirm('Starting {{$sprint->sprint_name}} will stop the current active sprint if one exists. Do you wish to proceed?');">
+                                        @csrf
+                                        @method('PUT')
+                                        <button title="Start Sprint!">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24" height="24">
+                                                <path fill="#22C55E" d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c-7.6 4.2-12.3 12.3-12.3 20.9l0 176c0 8.7 4.7 16.7 12.3 20.9s16.8 4.1 24.3-.5l144-88c7.1-4.4 11.5-12.1 11.5-20.5s-4.4-16.1-11.5-20.5l-144-88c-7.4-4.5-16.7-4.7-24.3-.5z"/>
+                                            </svg>
+                                        </button>      
+                                    </form>
+                                    @endif                              
+                                </td>
+                                <td class="px-4 py-4 max-w-xs text-sm font-medium text-gray-900 dark:text-white text-center">
                                     {{ $sprint->sprint_name }}
                                 </td>
                                 <td class="px-4 py-4 max-w-xs text-sm text-gray-500 dark:text-gray-300 text-center break-words">
@@ -66,10 +82,14 @@
                                         <span class="text-gray-500 dark:text-gray-400 font-semibold text-center">
                                             Inactive
                                         </span>
-                                    @else
-                                    <span class="text-green-500 dark:text-green-600 font-semibold text-center">
-                                        Active
-                                    </span>
+                                    @elseif ($sprint->status === 'active')
+                                        <span class="text-green-500 dark:text-green-600 font-semibold text-center">
+                                            Active
+                                        </span>
+                                    @elseif ($sprint->status === 'completed')
+                                        <span class="text-blue-500 dark:text-blue-600 font-semibold text-center">
+                                            Completed
+                                        </span>
                                     @endif
                                 </td>
                                 <td class="px-4 py-4 max-w-xs text-sm text-gray-500 dark:text-gray-300 text-center">

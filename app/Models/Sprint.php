@@ -28,4 +28,9 @@ class Sprint extends Model
     {
         return $this->belongsTo(Project::class, 'project_id', 'id');
     }
+
+    public function completeActiveSprintForProject($projectId)
+    {
+        self::where('project_id', $projectId)->where('status', 'active')->update(['status' => 'completed']);
+    }
 }
