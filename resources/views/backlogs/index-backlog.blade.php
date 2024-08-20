@@ -36,6 +36,9 @@
                                 Backlog
                             </th>
                             <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 Description
                             </th>
                             <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -43,9 +46,6 @@
                             </th>
                             <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 Created At
-                            </th>
-                            <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Updated At
                             </th>
                             <th scope="col" class="px-4 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                                 Action
@@ -67,6 +67,21 @@
                                 <td class="px-4 py-4 max-w-xs text-sm font-medium text-gray-900 dark:text-white text-center">
                                     {{ $backlog->backlog }}
                                 </td>
+                                <td class="px-4 py-4 max-w-xs text-sm font-medium text-gray-900 dark:text-white text-center uppercase">
+                                    @if ($backlog->status === 'pending')
+                                        <span class="text-gray-500 dark:text-gray-400 font-semibold text-center">
+                                            {{ $backlog->status }}
+                                        </span>
+                                    @elseif ($sprint->status === 'assigned')
+                                        <span class="text-green-500 dark:text-green-600 font-semibold text-center">
+                                            {{ $backlog->status }}
+                                        </span>
+                                    @else
+                                        <span class="text-blue-500 dark:text-blue-600 font-semibold text-center">
+                                            -
+                                        </span>
+                                    @endif
+                                </td>
                                 <td class="px-4 py-4 max-w-xs text-sm text-gray-500 dark:text-gray-300 text-center break-words">
                                     {{ $backlog->description }}
                                 </td>
@@ -74,10 +89,7 @@
                                     {{ $backlog->user->name }}
                                 </td>
                                 <td class="px-4 py-4 max-w-xs text-sm text-gray-500 dark:text-gray-300 text-center">
-                                    {{ $backlog->created_at->format('Y-m-d H:i') }}
-                                </td>
-                                <td class="px-4 py-4 max-w-xs text-sm text-gray-500 dark:text-gray-300 text-center">
-                                    {{ $backlog->updated_at->format('Y-m-d H:i') }}
+                                    {{ $backlog->created_at->format('d-m-Y H:i') }}
                                 </td>
                                 <td class="px-4 py-4 max-w-xs text-sm text-gray-500 dark:text-gray-300 text-center">
                                     <div class="inline-block">

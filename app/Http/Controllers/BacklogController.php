@@ -29,6 +29,7 @@ class BacklogController extends Controller
             Backlog::create([
                 'project_id' => $project->id,
                 'backlog' => $validated['backlog'],
+                'status' => 'pending',
                 'description' => $validated['description'],
                 'created_by' => auth()->id(),
             ]);

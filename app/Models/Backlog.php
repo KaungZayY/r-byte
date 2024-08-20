@@ -13,6 +13,7 @@ class Backlog extends Model
     protected $fillable = [
         'project_id',
         'backlog',
+        'status',
         'description',
         'created_by'
     ];
