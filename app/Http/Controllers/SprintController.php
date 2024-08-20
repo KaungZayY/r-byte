@@ -70,4 +70,47 @@ class SprintController extends Controller
         $sprint->save();
         return redirect()->route('sprints',$project)->banner('New Sprint has Successfully Started!.');
     }
+
+    public function edit(Project $project, Sprint $sprint)
+    {
+        return view('sprints.edit-sprint',compact('project','sprint'));
+    }
+
+    public function update(SprintRequest $request, Project $project, Sprint $sprint)
+    {
+        $validated = $request->validated();
+        try 
+        {
+            $sprintStartDate = Carbon::parse($validated['sprint_start_date']);
+            $sprintEndDate = Carbon::parse($validated['sprint_end_date']);
+
+            $conflictingSprints = Sprint::where('project_id', $project->id)
+            ->where('id', '!=', $sprint->id)
+            ->where(function($query) use ($sprintStartDate, $sprintEndDate) {
+                $query->where(function($subQuery) use ($sprintStartDate, $sprintEndDate) {
+                    $subQuery->where('sprint_start_date', '<=', $sprintEndDate)
+                             ->where('sprint_end_date', '>=', $sprintStartDate);
+                });
+            })
+            ->exists();
+
+            if ($conflictingSprints) {
+                return redirect()->route('sprints', $project)
+                    ->dangerBanner('A sprint with overlapping dates already exists. Please choose different dates.');
+            }
+
+            $sprint->update([
+                'sprint_name' => $validated['sprint_name'],
+                'description' => $validated['description'],
+                'sprint_start_date' => $validated['sprint_start_date'],
+                'duration' => $sprintStartDate->diffInDays($sprintEndDate),
+                'sprint_end_date' => $validated['sprint_end_date'],
+            ]);
+            return redirect()->route('sprints', $project)->banner('Sprint updated successfully.');
+        } 
+        catch (\Exception $e) 
+        {
+            return redirect()->route('sprints.edit', [$project, $sprint])->dangerBanner('An Error Occurred');
+        }
+    }
 }

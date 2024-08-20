@@ -16,7 +16,8 @@ class Sprint extends Model
         'status',
         'sprint_start_date',
         'sprint_end_date',
-        'duration'
+        'duration',
+        'description'
     ];
 
     protected $casts = [
