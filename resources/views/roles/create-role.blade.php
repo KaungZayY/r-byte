@@ -18,8 +18,12 @@
                                 <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="mt-4">
+                            <x-label for="description" value="{{ __('Description') }}" />
+                            <x-text-area name="description" id="description" rows="4" class="w-full px-4 py-2"></x-text-area>
+                        </div>
                         <div class="flex items-center justify-end mt-4 mb-2">
-                            <x-button-cancel :cancelRoute="route('teammates',$team)">
+                            <x-button-cancel :cancelRoute="route('teammates',['project' => $project, 'team' => $team])">
                                 {{__('Cancel')}}
                             </x-button-cancel>
             

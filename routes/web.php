@@ -36,51 +36,51 @@ Route::middleware([
 
 Route::get('/projects/create',[ProjectController::class,'create'])->name('projects.create');
 Route::post('/projects/create',[ProjectController::class,'store']);
-Route::get('/projects/edit{project}',[ProjectController::class,'edit'])->name('projects.edit');
-Route::put('/projects/edit{project}',[ProjectController::class,'update']);
-Route::get('/projects/delete{project}',[ProjectController::class,'delete'])->name('projects.delete');
-Route::delete('/projects/delete{project}',[ProjectController::class,'destroy']);
-Route::get('/projects/details{project}',[ProjectController::class,'detail'])->name('projects.detail');
+Route::get('/projects/{project}/edit',[ProjectController::class,'edit'])->name('projects.edit');
+Route::put('/projects/{project}/edit',[ProjectController::class,'update']);
+Route::get('/projects/{project}/delete',[ProjectController::class,'delete'])->name('projects.delete');
+Route::delete('/projects/{project}/delete',[ProjectController::class,'destroy']);
+Route::get('/projects/{project}/details',[ProjectController::class,'detail'])->name('projects.detail');
 
-Route::get('/backlogs/index{project}',[BacklogController::class,'index'])->name('backlogs');
-Route::get('/backlogs/create{project}',[BacklogController::class,'create'])->name('backlogs.create');
-Route::post('/backlogs/create{project}',[BacklogController::class,'store']);
-Route::get('/backlogs/edit{backlog}',[BacklogController::class,'edit'])->name('backlogs.edit');
-Route::post('/backlogs/edit{backlog}',[BacklogController::class,'update']);
-Route::delete('/backlogs/delete{backlog}',[BacklogController::class,'destroy'])->name('backlogs.delete');
-Route::get('/backlogs/archives{project}',[BacklogController::class,'archives'])->name('backlogs.archives');
+Route::get('/project/{project}/backlogs/index',[BacklogController::class,'index'])->name('backlogs');
+Route::get('/project/{project}/backlogs/create',[BacklogController::class,'create'])->name('backlogs.create');
+Route::post('/project/{project}/backlogs/create',[BacklogController::class,'store']);
+Route::get('/project/{project}/backlog/{backlog}/edit',[BacklogController::class,'edit'])->name('backlogs.edit');
+Route::put('/project/{project}/backlog/{backlog}/edit',[BacklogController::class,'update']);
+Route::delete('/project/{project}/backlog/{backlog}/delete',[BacklogController::class,'destroy'])->name('backlogs.delete');
+Route::get('/project/{project}/backlogs/archives',[BacklogController::class,'archives'])->name('backlogs.archives');
 Route::delete('/backlogs/force-delete{id}',[BacklogController::class,'forceRemove'])->name('backlogs.force');
 Route::patch('/backlogs/restore{id}', [BacklogController::class, 'restore'])->name('backlogs.restore');
 
-Route::get('/teams/index{project}',[TeamController::class,'index'])->name('teams');
-Route::get('/teams/create{project}',[TeamController::class,'create'])->name('teams.create');
-Route::post('/teams/create{project}',[TeamController::class,'store']);
-Route::get('/teams/edit{team}',[TeamController::class,'edit'])->name('teams.edit');
-Route::post('/teams/edit{team}',[TeamController::class,'update']);
-Route::delete('/teams/delete{team}',[TeamController::class,'destroy'])->name('teams.delete');
-Route::get('/teams/archives{project}',[TeamController::class,'archives'])->name('teams.archives');
+Route::get('/project/{project}/teams/index',[TeamController::class,'index'])->name('teams');
+Route::get('/project/{project}/teams/create',[TeamController::class,'create'])->name('teams.create');
+Route::post('project/{project}/teams/create',[TeamController::class,'store']);
+Route::get('project/{project}/team/{team}/edit',[TeamController::class,'edit'])->name('teams.edit');
+Route::put('project/{project}/team/{team}/edit',[TeamController::class,'update']);
+Route::delete('project/{project}/team/{team}/delete',[TeamController::class,'destroy'])->name('teams.delete');
+Route::get('/project/{project}/teams/archives',[TeamController::class,'archives'])->name('teams.archives');
 Route::delete('/teams/force-delete{id}',[TeamController::class,'forceRemove'])->name('teams.force');
 Route::patch('/teams/restore{id}', [TeamController::class, 'restore'])->name('teams.restore');
 
-Route::get('/team/members/list{team}',[TeammateController::class,'index'])->name('teammates');
+Route::get('project/{project}/team/{team}/members',[TeammateController::class,'index'])->name('teammates');
 Route::get('/team/members/assign{teammate}',[TeammateController::class,'addRole'])->name('roles.assign');
-Route::post('/team/members/assign{teammate}',[TeammateController::class,'assignRole']);
+Route::patch('/team/members/assign{teammate}',[TeammateController::class,'assignRole']);
 Route::delete('/teams/members/remove{teammate}',[TeammateController::class,'destroy'])->name('teammates.delete');
 
 Route::get('/team/members/add{team}',[InvitationController::class,'index'])->name('invites');
 Route::post('/team/members/add{team}',[InvitationController::class,'sentInvite']);
 Route::get('/accept-invite/{token}', [InvitationController::class, 'acceptInvite'])->name('invite.accept');
 
-Route::get('/team/roles/add{team}',[RoleController::class,'create'])->name('roles.create');
-Route::post('/team/roles/add{team}',[RoleController::class,'store']);
+Route::get('/project{project}/team{team}/roles/add',[RoleController::class,'create'])->name('roles.create');
+Route::post('/project{project}/team{team}/roles/add',[RoleController::class,'store']);
 
-Route::get('/project{project}/sprints',[SprintController::class,'index'])->name('sprints');
-Route::get('/project{project}/sprint/create',[SprintController::class,'create'])->name('sprints.create');
-Route::post('/project{project}/sprint/create',[SprintController::class,'store']);
+Route::get('/project/{project}/sprints',[SprintController::class,'index'])->name('sprints');
+Route::get('/project/{project}/sprint/create',[SprintController::class,'create'])->name('sprints.create');
+Route::post('/project/{project}/sprint/create',[SprintController::class,'store']);
 Route::get('/project/{project}/sprint/{sprint}/edit',[SprintController::class,'edit'])->name('sprints.edit');
 Route::put('/project/{project}/sprint/{sprint}/edit',[SprintController::class,'update']);
-Route::put('/sprint{sprint}/start',[SprintController::class,'startSprint'])->name('sprints.start');
-Route::delete('/sprint{sprint}/delete',[SprintController::class,'destroy'])->name('sprints.delete');
-Route::get('/project{project}/sprints/archives',[SprintController::class,'archives'])->name('sprints.archives');
-Route::patch('/project{project}/sprints{id}/restore', [SprintController::class, 'restore'])->name('sprints.restore');
-Route::delete('/sprint{sprint}/force-delete',[SprintController::class,'forceRemove'])->name('sprints.force');
+Route::put('/sprint/{sprint}/start',[SprintController::class,'startSprint'])->name('sprints.start');
+Route::delete('/sprint/{sprint}/delete',[SprintController::class,'destroy'])->name('sprints.delete');
+Route::get('/project/{project}/sprints/archives',[SprintController::class,'archives'])->name('sprints.archives');
+Route::patch('/project/{project}/sprints{id}/restore', [SprintController::class, 'restore'])->name('sprints.restore');
+Route::delete('/sprint/{sprint}/force-delete',[SprintController::class,'forceRemove'])->name('sprints.force');

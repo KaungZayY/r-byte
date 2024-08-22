@@ -42,41 +42,40 @@ class TeamController extends Controller
         }
     }
 
-    public function edit(Team $team)
+    public function edit(Project $project, Team $team)
     {
-        $project = $team->project;
         return view('teams.edit-team',compact('team','project'));
     }
 
-    public function update(Team $team, TeamRequest $request)
+    public function update(Project $project, Team $team, TeamRequest $request)
     {
         try{
             $team->update($request->validated());
-            return redirect()->route('teams',$team->project)->banner('Team Updated.');
+            return redirect()->route('teams',$project)->banner('Team Updated.');
         }
         catch(\Exception $e){
-            return redirect()->route('teams',$team->project)->dangerBanner('Cannot Update the Team');
+            return redirect()->route('teams',$project)->dangerBanner('Cannot Update the Team');
         }
     }
 
-    public function destroy(Team $team)
+    public function destroy(Project $project, Team $team)
     {
         if ($team->teammates()->exists()) {
-            return redirect()->route('teams',$team->project)->dangerBanner('Remove the teammates first!');
+            return redirect()->route('teams',$project)->dangerBanner('Remove the teammates first!');
         }
 
         try {
             $deleted = $team->delete();
 
             if (!$deleted) {
-                return redirect()->route('teams',$team->project)->dangerBanner('Cannot remove this team.');
+                return redirect()->route('teams',$project)->dangerBanner('Cannot remove this team.');
             }
 
-            return redirect()->route('teams',$team->project)->banner('Team archived successfully.');
+            return redirect()->route('teams',$project)->banner('Team archived successfully.');
         } 
         catch (\Exception $e) 
         {
-            return redirect()->route('teams',$team->project)->dangerBanner('Cannot remove this team.');
+            return redirect()->route('teams',$project)->dangerBanner('Cannot remove this team.');
         }
     }
 

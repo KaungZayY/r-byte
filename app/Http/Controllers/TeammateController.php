@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\Teammate;
@@ -9,11 +10,10 @@ use Illuminate\Http\Request;
 
 class TeammateController extends Controller
 {
-    public function index(Team $team)
+    public function index(Project $project, Team $team)
     {
         $teammates = $team->teammates()->with('user')->with('role')->get();
         $count = $teammates->count();
-        $project = $team->project;
         return view('teammates.index-teammate',compact('teammates','team','project','count'));
     }
 
@@ -28,16 +28,16 @@ class TeammateController extends Controller
     public function assignRole(Request $request, Teammate $teammate)
     {
         $request->validate(['role_id'=>'required|exists:roles,id']);
-
+        $project = $teammate->team->project;
         try {
             $teammate->update([
                 'role_id' => $request->role_id
             ]);
-            return redirect()->route('teammates',$teammate->team)->banner('Role has been successfully assigned.');
+            return redirect()->route('teammates',[$project,$teammate->team])->banner('Role has been successfully assigned.');
 
         } catch (\Exception $e) {
             // dd($e);
-            return redirect()->route('invites',$teammate->team)->dangerBanner('Cannot assign role to this user');
+            return redirect()->route('teammates',[$project,$teammate->team])->dangerBanner('Cannot assign role to this user');
         }
     }
 
@@ -45,12 +45,12 @@ class TeammateController extends Controller
     {
         $team = $teammate->team;
         $name = $teammate->user->name;
-
+        $project = $teammate->team->project;
         try 
         {
             $teammate->delete();
 
-            return redirect()->route('teammates',$team)->banner("{$name} has been removed from the team.");
+            return redirect()->route('teammates',[$project,$teammate->team])->banner("{$name} has been removed from the team.");
         } 
         catch (\Exception $e) 
         {

@@ -43,37 +43,37 @@ class BacklogController extends Controller
         }
     }
 
-    public function edit(Backlog $backlog)
+    public function edit(Project $project, Backlog $backlog)
     {
-        $project = $backlog->project;
         return view('backlogs.edit-backlog',compact('backlog','project'));
     }
 
-    public function update(BacklogRequest $request, Backlog $backlog)
+    public function update(Project $project, BacklogRequest $request, Backlog $backlog)
     {
         try{
             $backlog->update($request->validated());
-            return redirect()->route('backlogs',$backlog->project)->banner('Backlog Updated.');
+            return redirect()->route('backlogs',$project)->banner('Backlog Updated.');
         }
         catch(\Exception $e){
-            return redirect()->route('backlogs',$backlog->project)->dangerBanner('Cannot Update the Backlog');
+            return redirect()->route('backlogs',$project)->dangerBanner('Cannot Update the Backlog');
         }
     }
 
-    public function destroy(Backlog $backlog)
+    public function destroy(Project $project, Backlog $backlog)
     {
         try 
         {
-            if ($backlog->exists && $backlog->delete()) 
+            if ($backlog->exists && $backlog->status === 'pending') 
             {
-                return redirect()->route('backlogs', $backlog->project)->banner('Backlog archived.');
+                $backlog->delete();
+                return redirect()->route('backlogs', $project)->banner('Backlog archived.');
             }
             
-            return redirect()->route('backlogs', $backlog->project)->dangerBanner('An error occurred while archiving the backlog.');
+            return redirect()->route('backlogs', $project)->dangerBanner('An error occurred while archiving the backlog.');
         } 
         catch (\Exception $e) 
         {
-            return redirect()->route('backlogs',$backlog->project)->dangerBanner('An Error Occured');
+            return redirect()->route('backlogs',$project)->dangerBanner('An Error Occured');
         }
     }
 

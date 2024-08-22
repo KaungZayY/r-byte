@@ -12,6 +12,7 @@ class Role extends Model
 
     protected $fillable = [
         'team_id',
-        'role_name'
+        'role_name',
+        'description'
     ];
 }

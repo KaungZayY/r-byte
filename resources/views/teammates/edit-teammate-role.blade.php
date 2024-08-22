@@ -8,7 +8,7 @@
             <div class="bg-white dark:bg-black overflow-hidden shadow-xl sm:rounded-lg">
                 <form action="#" method="POST">
                     @csrf
-                    @method('POST')
+                    @method('PATCH')
                     <div class="px-16 md:px-40 lg:px-80 py-4">
                         <div class="mt-4">
                             <x-label for="role_id" value="{{ __('Select Role for ') }}' {{$teammate->user->name}} '" class="text-2xl" />
@@ -23,7 +23,7 @@
                             @enderror
                         </div>
                         <div class="mt-2 flex justify-end">
-                            <x-button-cancel :cancelRoute="route('teammates',$teammate->team)">
+                            <x-button-cancel :cancelRoute="route('teammates',['project' => $project, 'team' => $teammate->team])">
                                 {{__('Cancel')}}
                             </x-button-cancel>
                             <x-button class="ms-2">

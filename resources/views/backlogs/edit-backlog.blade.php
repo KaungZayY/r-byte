@@ -6,8 +6,9 @@
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-black overflow-hidden shadow-xl sm:rounded-lg">
-                <form action="{{route('backlogs.edit',$project)}}" method="POST">
+                <form action="{{route('backlogs.edit',['project' => $project, 'backlog' => $backlog])}}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="px-16 md:px-40 lg:px-80">
                         <div class="mt-4">
                             <x-label for="backlog" value="{{ __('Backlog') }}" />

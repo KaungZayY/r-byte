@@ -48,7 +48,7 @@ class InvitationController extends Controller
                 'invited_by' => Auth::user()->id
             ]);
             Mail::to($request->email)->send(new TeamInvitationMail($invitation, $team, $recipient_name, $sender_name));
-            return redirect()->route('teammates',$team)->banner('Invitation sent successfully.');
+            return redirect()->route('teammates',[$team->project, $team])->banner('Invitation sent successfully.');
         } catch (\Exception $e) {
             // dd($e);
             return redirect()->route('invites',$team)->dangerBanner('Cannot Invite this user at the moment');
