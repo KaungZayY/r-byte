@@ -80,3 +80,7 @@ Route::post('/project{project}/sprint/create',[SprintController::class,'store'])
 Route::get('/project/{project}/sprint/{sprint}/edit',[SprintController::class,'edit'])->name('sprints.edit');
 Route::put('/project/{project}/sprint/{sprint}/edit',[SprintController::class,'update']);
 Route::put('/sprint{sprint}/start',[SprintController::class,'startSprint'])->name('sprints.start');
+Route::delete('/sprint{sprint}/delete',[SprintController::class,'destroy'])->name('sprints.delete');
+Route::get('/project{project}/sprints/archives',[SprintController::class,'archives'])->name('sprints.archives');
+Route::patch('/project{project}/sprints{id}/restore', [SprintController::class, 'restore'])->name('sprints.restore');
+Route::delete('/sprint{sprint}/force-delete',[SprintController::class,'forceRemove'])->name('sprints.force');

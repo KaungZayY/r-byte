@@ -113,4 +113,44 @@ class SprintController extends Controller
             return redirect()->route('sprints.edit', [$project, $sprint])->dangerBanner('An Error Occurred');
         }
     }
+
+    public function destroy(Sprint $sprint)
+    {
+        try 
+        {
+            if ($sprint->status === 'inactive') 
+            {
+                $sprint->delete();
+                return redirect()->route('sprints', $sprint->project)->banner('Sprint archived.');
+            }
+            
+            return redirect()->route('sprints', $sprint->project)->dangerBanner('An error occurred while archiving the Sprint.');
+        } 
+        catch (\Exception $e) 
+        {
+            return redirect()->route('sprints',$sprint->project)->dangerBanner('An Error Occured');
+        }
+    }
+
+    public function archives(Project $project)
+    {
+        $sprints = $project->sprints()->onlyTrashed()->get();
+        $count = $project->sprints()->onlyTrashed()->count();
+        return view('sprints.archives-sprint',compact('sprints','project','count'));
+    }
+
+    public function restore(Project $project, $id)
+    {
+        $sprint = Sprint::withTrashed()->findOrFail($id);
+        $sprint->restore();
+        return redirect()->route('sprints', $project)->banner('Sprint Restored.');
+    }
+
+    public function forceRemove($id)
+    {
+        $sprint = Sprint::withTrashed()->findOrFail($id);
+        $project = $sprint->project;
+        $sprint->forceDelete();
+        return redirect()->route('sprints.archives', $project)->banner('Sprint Deleted.');
+    }
 }
