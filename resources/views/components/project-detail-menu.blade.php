@@ -20,7 +20,7 @@
                 Sprints
             </button>
         </form>
-        <form action="#" method="GET">
+        <form action="{{route('roles',$project)}}" method="GET">
             <button class="{{ $active === 'roles' ? 'bg-white text-orange-600 border-2 border-orange-600 dark:bg-gray-800 dark:text-orange-400 dark:border-orange-400' : 'bg-orange-600 dark:bg-orange-400 text-white dark:text-gray-900' }} hover:bg-orange-700 dark:hover:bg-orange-500 font-bold py-2 px-4 sm:px-6 rounded-md shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1">
                 Roles
             </button>

@@ -71,12 +71,10 @@ Route::get('/team/members/add{team}',[InvitationController::class,'index'])->nam
 Route::post('/team/members/add{team}',[InvitationController::class,'sentInvite']);
 Route::get('/accept-invite/{token}', [InvitationController::class, 'acceptInvite'])->name('invite.accept');
 
-Route::get('/project{project}/team{team}/roles/add',[RoleController::class,'create'])->name('roles.create');
-Route::post('/project{project}/team{team}/roles/add',[RoleController::class,'store']);
 
 Route::get('/project/{project}/sprints',[SprintController::class,'index'])->name('sprints');
-Route::get('/project/{project}/sprint/create',[SprintController::class,'create'])->name('sprints.create');
-Route::post('/project/{project}/sprint/create',[SprintController::class,'store']);
+Route::get('/project/{project}/sprints/create',[SprintController::class,'create'])->name('sprints.create');
+Route::post('/project/{project}/sprints/create',[SprintController::class,'store']);
 Route::get('/project/{project}/sprint/{sprint}/edit',[SprintController::class,'edit'])->name('sprints.edit');
 Route::put('/project/{project}/sprint/{sprint}/edit',[SprintController::class,'update']);
 Route::put('/sprint/{sprint}/start',[SprintController::class,'startSprint'])->name('sprints.start');
@@ -84,3 +82,7 @@ Route::delete('/sprint/{sprint}/delete',[SprintController::class,'destroy'])->na
 Route::get('/project/{project}/sprints/archives',[SprintController::class,'archives'])->name('sprints.archives');
 Route::patch('/project/{project}/sprints{id}/restore', [SprintController::class, 'restore'])->name('sprints.restore');
 Route::delete('/sprint/{sprint}/force-delete',[SprintController::class,'forceRemove'])->name('sprints.force');
+
+Route::get('/project{project}/roles/',[RoleController::class,'index'])->name('roles');
+Route::get('/project{project}/roles/create',[RoleController::class,'create'])->name('roles.create');
+Route::post('/project{project}/roles/create',[RoleController::class,'store']);

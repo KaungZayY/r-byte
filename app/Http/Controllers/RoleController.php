@@ -10,28 +10,34 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    public function create(Project $project, Team $team)
+
+    public function index(Project $project)
     {
-        return view('roles.create-role',compact('team','project'));
+        return view('roles.index-role',compact('project'));
     }
 
-    public function store(Project $project, Team $team, RoleRequest $request)
+    public function create(Project $project)
+    {
+        return view('roles.create-role',compact('project'));
+    }
+
+    public function store(Project $project, RoleRequest $request)
     {
         $validated = $request->validated();
         try {
             Role::create([
-                'team_id' => $team->id,
+                'project_id' => $project->id,
                 'role_name' => $validated['role_name'],
                 'description' => $validated['description']
             ]);
             
-            return redirect()->route('teammates',[$project,$team])->banner('New Role Created!');
+            return redirect()->route('roles',$project)->banner('New Role Created!');
 
         } 
         catch (\Exception $e) 
         {
-            dd($e);
-            return redirect()->route('teammates',[$project,$team])->dangerBanner('An Error Occured');
+            // dd($e);
+            return redirect()->route('roles')->dangerBanner('An Error Occured');
         }
     }
 }

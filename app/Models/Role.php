@@ -11,7 +11,7 @@ class Role extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'team_id',
+        'project_id',
         'role_name',
         'description'
     ];
