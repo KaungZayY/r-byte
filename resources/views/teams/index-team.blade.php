@@ -18,7 +18,7 @@
                         </button>
                     </form>
                     <form action="{{route('teams.create',$project)}}" method="GET">
-                        <button type="submit" class="inline-flex items-center justify-center px-4 py-2 mr-1 bg-green-600 text-white font-semibold text-base leading-6 rounded-md shadow-sm hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition transform hover:scale-105">
+                        <button type="submit" class="inline-flex items-center justify-center px-4 py-2 mr-1 bg-indigo-600 text-white font-semibold text-base leading-6 rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition transform hover:scale-105">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="24" width="24" class="mr-2 fill-current">
                                 <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
                             </svg>
