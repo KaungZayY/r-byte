@@ -36,4 +36,9 @@ class Project extends Model
     {
         return $this->hasMany(Sprint::class, 'project_id', 'id');
     }
+
+    public function roles()
+    {
+        return $this->hasMany(Role::class, 'project_id', 'id');
+    }
 }

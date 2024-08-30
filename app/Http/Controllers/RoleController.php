@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RoleRequest;
 use App\Models\Project;
 use App\Models\Role;
-use App\Models\Team;
-use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
 
     public function index(Project $project)
     {
-        return view('roles.index-role',compact('project'));
+        $roles = $project->roles;
+        $count = $project->roles->count();
+        return view('roles.index-role',compact('project','roles', 'count'));
     }
 
     public function create(Project $project)
