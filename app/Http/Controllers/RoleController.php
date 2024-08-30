@@ -40,4 +40,21 @@ class RoleController extends Controller
             return redirect()->route('roles')->dangerBanner('An Error Occured');
         }
     }
+
+    public function edit(Project $project, Role $role)
+    {
+        return view('roles.edit-role',compact('project','role'));
+    }
+
+    public function update(Project $project, Role $role, RoleRequest $request)
+    {
+        try {
+            $role->update($request->validated());
+            return redirect()->route('roles',$project)->banner('Role Updated.');
+        }
+        catch (\Exception $e)
+        {
+            return redirect()->route('roles',$project)->dangerBanner('Cannot Update the Role');
+        }
+    }
 }

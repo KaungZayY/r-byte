@@ -83,6 +83,8 @@ Route::get('/project/{project}/sprints/archives',[SprintController::class,'archi
 Route::patch('/project/{project}/sprints{id}/restore', [SprintController::class, 'restore'])->name('sprints.restore');
 Route::delete('/sprint/{sprint}/force-delete',[SprintController::class,'forceRemove'])->name('sprints.force');
 
-Route::get('/project{project}/roles/',[RoleController::class,'index'])->name('roles');
-Route::get('/project{project}/roles/create',[RoleController::class,'create'])->name('roles.create');
-Route::post('/project{project}/roles/create',[RoleController::class,'store']);
+Route::get('/project/{project}/roles/',[RoleController::class,'index'])->name('roles');
+Route::get('/project/{project}/roles/create',[RoleController::class,'create'])->name('roles.create');
+Route::post('/project/{project}/roles/create',[RoleController::class,'store']);
+Route::get('/project/{project}/role/{role}/edit',[RoleController::class,'edit'])->name('roles.edit');
+Route::put('/project/{project}/role/{role}/edit',[RoleController::class,'update']);
