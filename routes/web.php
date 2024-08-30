@@ -88,3 +88,7 @@ Route::get('/project/{project}/roles/create',[RoleController::class,'create'])->
 Route::post('/project/{project}/roles/create',[RoleController::class,'store']);
 Route::get('/project/{project}/role/{role}/edit',[RoleController::class,'edit'])->name('roles.edit');
 Route::put('/project/{project}/role/{role}/edit',[RoleController::class,'update']);
+Route::delete('/project/{project}/role/{role}/delete',[RoleController::class,'destroy'])->name('roles.delete');
+Route::get('/project/{project}/roles/archives',[RoleController::class,'archives'])->name('roles.archives');
+Route::patch('/project/{project}/roles{id}/restore', [RoleController::class, 'restore'])->name('roles.restore');
+Route::delete('/project/{project}/roles{id}/force-delete',[RoleController::class,'forceRemove'])->name('roles.force');

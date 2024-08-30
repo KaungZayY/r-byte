@@ -57,4 +57,36 @@ class RoleController extends Controller
             return redirect()->route('roles',$project)->dangerBanner('Cannot Update the Role');
         }
     }
+
+    public function destroy(Project $project, Role $role)
+    {
+        try{
+            $role->delete();
+            return redirect()->route('roles',$project)->banner('Role Moved to Archives.');
+        }
+        catch (\Exception $e){
+            return redirect()->route('roles',$project)->dangerBanner('Cannot Delete the Role');
+        }
+    }
+
+    public function archives(Project $project)
+    {
+        $roles = $project->roles()->onlyTrashed()->get();
+        $count = $project->roles()->onlyTrashed()->count();
+        return view('roles.archives-role',compact('roles','project','count'));
+    }
+
+    public function restore(Project $project, $id)
+    {
+        $role = Role::withTrashed()->findOrFail($id);
+        $role->restore();
+        return redirect()->route('roles',$project)->banner('Role Restored.');
+    }
+
+    public function forceRemove(Project $project, $id)
+    {
+        $role = Role::withTrashed()->findOrFail($id);
+        $role->forceDelete();
+        return redirect()->route('roles.archives',$project)->banner('Role Deleted Permanently.');
+    }
 }
