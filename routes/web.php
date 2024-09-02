@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BacklogController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SprintController;
@@ -92,3 +93,5 @@ Route::delete('/project/{project}/role/{role}/delete',[RoleController::class,'de
 Route::get('/project/{project}/roles/archives',[RoleController::class,'archives'])->name('roles.archives');
 Route::patch('/project/{project}/roles{id}/restore', [RoleController::class, 'restore'])->name('roles.restore');
 Route::delete('/project/{project}/roles{id}/force-delete',[RoleController::class,'forceRemove'])->name('roles.force');
+
+Route::get('/project/{project}/role/{role}/permissions',[PermissionController::class,'index'])->name('permissions');
