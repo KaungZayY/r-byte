@@ -12,7 +12,6 @@ class Teammate extends Model
     protected $fillable = [
         'team_id',
         'user_id',
-        'role_id',
         'invited_by'
     ];
 
@@ -24,10 +23,5 @@ class Teammate extends Model
     public function user()
     {
         return $this->belongsTo(User::class,'user_id','id');
-    }
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class,'role_id','id');
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SprintController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeammateController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,9 +64,7 @@ Route::get('/project/{project}/teams/archives',[TeamController::class,'archives'
 Route::delete('/teams/force-delete{id}',[TeamController::class,'forceRemove'])->name('teams.force');
 Route::patch('/teams/restore{id}', [TeamController::class, 'restore'])->name('teams.restore');
 
-Route::get('project/{project}/team/{team}/members',[TeammateController::class,'index'])->name('teammates');
-Route::get('/team/members/assign{teammate}',[TeammateController::class,'addRole'])->name('roles.assign');
-Route::patch('/team/members/assign{teammate}',[TeammateController::class,'assignRole']);
+Route::get('/project/{project}/team/{team}/members',[TeammateController::class,'index'])->name('teammates');
 Route::delete('/teams/members/remove{teammate}',[TeammateController::class,'destroy'])->name('teammates.delete');
 
 Route::get('/team/members/add{team}',[InvitationController::class,'index'])->name('invites');
@@ -93,5 +92,10 @@ Route::delete('/project/{project}/role/{role}/delete',[RoleController::class,'de
 Route::get('/project/{project}/roles/archives',[RoleController::class,'archives'])->name('roles.archives');
 Route::patch('/project/{project}/roles{id}/restore', [RoleController::class, 'restore'])->name('roles.restore');
 Route::delete('/project/{project}/roles{id}/force-delete',[RoleController::class,'forceRemove'])->name('roles.force');
+
+Route::get('/project/{project}/team/{team}/member/{user}/assign-role',[UserRoleController::class,'addRole'])->name('roles.assign');
+Route::post('/project/{project}/team/{team}/member/{user}/assign-role',[UserRoleController::class,'assignRole']);
+Route::get('/project/{project}/team/{team}/member/{user}/update-role',[UserRoleController::class,'updateRole'])->name('roles.reassign');
+Route::patch('/project/{project}/team/{team}/member/{user}/update-role',[UserRoleController::class,'reassignRole']);
 
 Route::get('/project/{project}/role/{role}/permissions',[PermissionController::class,'index'])->name('permissions');

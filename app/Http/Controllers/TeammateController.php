@@ -12,34 +12,11 @@ class TeammateController extends Controller
 {
     public function index(Project $project, Team $team)
     {
-        $teammates = $team->teammates()->with('user')->with('role')->get();
+        [$teammates, $roles] = $team->teammatesWithRoles($project);
         $count = $teammates->count();
-        return view('teammates.index-teammate',compact('teammates','team','project','count'));
+        return view('teammates.index-teammate',compact('teammates','team','project','count','roles'));
     }
 
-    public function addRole(Teammate $teammate)
-    {
-        $teammate->load('user')->load('team');
-        $project = $teammate->team->project;
-        $roles = Role::where('project_id',$project->id)->get();
-        return view('teammates.edit-teammate-role',compact('teammate','project','roles'));
-    }
-
-    public function assignRole(Request $request, Teammate $teammate)
-    {
-        $request->validate(['role_id'=>'required|exists:roles,id']);
-        $project = $teammate->team->project;
-        try {
-            $teammate->update([
-                'role_id' => $request->role_id
-            ]);
-            return redirect()->route('teammates',[$project,$teammate->team])->banner('Role has been successfully assigned.');
-
-        } catch (\Exception $e) {
-            // dd($e);
-            return redirect()->route('teammates',[$project,$teammate->team])->dangerBanner('Cannot assign role to this user');
-        }
-    }
 
     public function destroy(Teammate $teammate)
     {
