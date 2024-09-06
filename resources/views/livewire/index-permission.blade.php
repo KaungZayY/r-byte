@@ -14,12 +14,12 @@
         @foreach ($features as $feature)
             <div
                 class="bg-white dark:bg-gray-900 shadow-lg rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between max-h-20">
-                <div class="mb-4 sm:mb-0 sm:mr-8 md:w-1/2 md:flex-grow sm:w-auto flex flex-row">
+                <div class="mb-4 sm:mb-0 sm:mr-8 md:w-1/3 md:flex-grow sm:w-auto flex flex-row">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200">
                         {{ $feature->feature_name }}
                     </h3>
                 </div>
-                <div class="flex flex-row items-center space-x-4 md:w-1/2 md:flex-grow sm:w-auto overflow-auto">
+                <div class="flex flex-row items-center space-x-4 md:w-2/3 md:flex-grow sm:w-auto overflow-auto">
                     {{-- <div class="flex items-center space-x-2">
                         <label class="inline-flex items-center group">
                             <input type="checkbox"
