@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PermissionHelper;
 use App\Mail\TeamInvitationMail;
 use App\Models\Invitation;
 use App\Models\Team;
@@ -14,14 +15,24 @@ use Illuminate\Support\Facades\Mail;
 
 class InvitationController extends Controller
 {
+    protected $pHelper;
+
+    public function __construct()
+    {
+        $this->pHelper = new PermissionHelper();
+    }
+
+
     public function index(Team $team)
     {
         $project = $team->project;
+        $this->pHelper->authorizeUser($project,'Teammates','Invite');
         return view('invitations.create-invitation',compact('team','project'));
     }
 
     public function sentInvite(Team $team, Request $request)
     {
+        $this->pHelper->authorizeUser($project,'Teammates','Invite');
         $request->validate(['email'=>'required|email']);
         $user = User::where('email', $request->email)->first();
         if (!$user) {
