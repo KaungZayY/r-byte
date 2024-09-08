@@ -39,6 +39,7 @@ class UserRoleController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+            Cache::forget("user_{$user->id}_project_{$project->id}_role_is");
             return redirect()->route('teammates',[$project,$team])->banner('Role has been successfully assigned.');
         } 
         catch (\Exception $e) {

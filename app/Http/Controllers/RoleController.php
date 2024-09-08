@@ -60,6 +60,11 @@ class RoleController extends Controller
 
     public function destroy(Project $project, Role $role)
     {
+        if ($role->isAssignedToAnyUser($project)) 
+        {
+            return redirect()->route('roles', $project)->dangerBanner('Cannot delete the role because it is assigned to one or more users.');
+        }
+
         try{
             $role->delete();
             return redirect()->route('roles',$project)->banner('Role Moved to Archives.');

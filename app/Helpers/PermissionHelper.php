@@ -37,11 +37,11 @@ class PermissionHelper{
     public function checkPermission(Project $project, $permissionId): bool
     {
         $user = Auth::user();
-        $role_id = Cache::remember("user_{$user->id}_project_{$project->id}_role_is", now()->addMinutes(60), function () use ($user, $project) {
+        $role_id = Cache::remember("user_{$user->id}_project_{$project->id}_role_is", now()->addMinutes(30), function () use ($user, $project) {
             return $user->roleForProject($project)->id;
         });
         if ($role_id) {
-                $permissions = Cache::remember("role_{$role_id}_permissions", now()->addMinutes(60), function () use ($role_id) {
+                $permissions = Cache::remember("role_{$role_id}_permissions", now()->addMinutes(30), function () use ($role_id) {
                 $role = Role::with('permissions')->find($role_id);
                 return $role ? $role->permissions->pluck('id')->toArray() : [];
             });
