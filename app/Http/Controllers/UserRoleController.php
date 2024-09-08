@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class UserRoleController extends Controller
@@ -53,6 +54,7 @@ class UserRoleController extends Controller
                 'role_id'    => $request->role_id,
                 'updated_at' => now(),
             ]);
+            Cache::forget("user_{$user->id}_project_{$project->id}_role_is");
             return redirect()->route('teammates',[$project,$team])->banner('Role has been successfully updated.');
         } 
         catch (\Exception $e) {

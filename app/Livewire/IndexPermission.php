@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Feature;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class IndexPermission extends Component
@@ -24,6 +25,7 @@ class IndexPermission extends Component
     public function toggleCheckbox($permissionId): void
     {
         $role = $this->role;
+        Cache::forget("role_{$role->id}_permissions");
         $assignedPermissions = $this->assignedPermissions;
 
         if(in_array($permissionId,$assignedPermissions))
