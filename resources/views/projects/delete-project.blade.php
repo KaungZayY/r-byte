@@ -14,7 +14,7 @@
                     <div class="px-16 md:px-40 lg:px-80 py-4">
                         <div class="mt-4">
                             <x-label for="project_name" value="{{ __('Retype Project Name Again') }}" class="uppercase text-2xl" />
-                            <x-input id="project_name" class="block mt-1 w-full" type="text" name="project_name" value="" autofocus autocomplete="project_name" />
+                            <x-input id="project_name" class="block mt-1 w-full" type="text" name="project_name" value="" :value="old('project_name')" autofocus />
                             @error('project_name')
                                 <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                             @enderror

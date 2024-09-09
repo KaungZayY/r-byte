@@ -2,6 +2,8 @@
 namespace App\Helpers;
 
 use App\Models\Feature;
+use App\Models\Project;
+use App\Models\Status;
 
 class SeederHelper{
 
@@ -21,6 +23,16 @@ class SeederHelper{
         foreach($permissions as $permission){
             $feature->permissions()->create([
                 'permission_name' => $permission
+            ]);
+        }
+    }
+
+    public function seedDefaultStatuses(Project $project, ...$statuses): void
+    {
+        foreach ($statuses as $status){
+            Status::create([
+                'project_id' => $project->id,
+                'status' => $status
             ]);
         }
     }

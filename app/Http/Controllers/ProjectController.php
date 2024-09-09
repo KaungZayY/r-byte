@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectDeleteRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use Database\Seeders\StatusSeeder;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -18,19 +19,21 @@ class ProjectController extends Controller
     {
         $validated = $request->validated();
         try {
-            Project::create([
+            $project = Project::create([
                 'project_name' => $validated['project_name'],
                 'description' => $validated['description'],
                 'start_date' => $validated['start_date'],
                 'end_date' => $validated['end_date'],
                 'created_by' => auth()->id(),
             ]);
-            
+            $seeder = new StatusSeeder();
+            $seeder->run($project);
             return redirect()->route('dashboard')->banner('New project created successfully.');
 
         } 
         catch (\Exception $e) 
         {
+            dd($e);
             return redirect()->route('dashboard')->dangerBanner('An Error Occured');
         }
     }

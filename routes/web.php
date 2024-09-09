@@ -8,6 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SprintController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeammateController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,9 @@ Route::delete('/project/{project}/backlog/{backlog}/delete',[BacklogController::
 Route::get('/project/{project}/backlogs/archives',[BacklogController::class,'archives'])->name('backlogs.archives');
 Route::delete('/backlogs/force-delete{id}',[BacklogController::class,'forceRemove'])->name('backlogs.force');
 Route::patch('/backlogs/restore{id}', [BacklogController::class, 'restore'])->name('backlogs.restore');
+
+Route::get('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'create'])->name('tickets.create');
+Route::post('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'store']);
 
 Route::get('/project/{project}/teams/index',[TeamController::class,'index'])->name('teams');
 Route::get('/project/{project}/teams/create',[TeamController::class,'create'])->name('teams.create');
