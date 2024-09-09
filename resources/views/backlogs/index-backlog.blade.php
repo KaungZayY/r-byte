@@ -60,14 +60,20 @@
                         @foreach ($backlogs as $backlog)
                             <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
                                 <td class="px-4 py-4 max-w-xs text-sm font-medium text-gray-900 dark:text-white text-center">
-                                    @if (viewContent($project, 'Backlogs', 'CreateTicket'))
+                                    @if ($backlog->status === 'pending' && viewContent($project, 'Backlogs', 'CreateTicket'))
                                         <form action="{{route('tickets.create',['project' => $project, 'backlog' => $backlog])}}" method="GET">
                                             <button title="Create Ticket">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24">
                                                     <path fill="#22C55E" d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM200 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
                                                 </svg>     
                                             </button>      
-                                        </form> 
+                                        </form>
+                                    @else
+                                        <button title="Create Ticket" disabled>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24">
+                                                <path fill="#4b5563" d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-320c0-35.3-28.7-64-64-64L64 32zM200 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                                            </svg>     
+                                        </button> 
                                     @endif
                                 </td>
                                 <td class="px-4 py-4 max-w-xs text-sm font-medium text-gray-900 dark:text-white text-center">

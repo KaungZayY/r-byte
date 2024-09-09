@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->integer('backlog_id');
-            $table->integer('project_id');
+            $table->unsignedBigInteger('sprint_id');
+            $table->unsignedBigInteger('backlog_id');
+            $table->unsignedBigInteger('project_id');
             $table->string('ticket_name');
+            $table->unsignedBigInteger('status_id');
+            $table->unsignedBigInteger('position');
             $table->string('description')->nullable();
-            $table->integer('duration');
-            $table->integer('backlog_created_by');
-            $table->integer('ticket_created_by');
+            $table->unsignedBigInteger('duration');
+            $table->unsignedBigInteger('backlog_created_by');
+            $table->unsignedBigInteger('ticket_created_by');
             $table->timestamps();
             $table->softDeletes();
         });

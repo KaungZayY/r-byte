@@ -41,4 +41,14 @@ class Project extends Model
     {
         return $this->hasMany(Role::class, 'project_id', 'id');
     }
+
+    public function statuses()
+    {
+        return $this->hasMany(Status::class,'project_id','id');
+    }
+
+    public function getToDoStatusId(Project $project): int
+    {
+        return $project->statuses->where('status','To Do')->value('id');
+    }
 }

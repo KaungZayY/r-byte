@@ -6,6 +6,7 @@ use App\Helpers\PermissionHelper;
 use App\Http\Requests\TicketRequest;
 use App\Models\Backlog;
 use App\Models\Project;
+use App\Models\Sprint;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
@@ -29,19 +30,23 @@ class TicketController extends Controller
     {
         $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');
         $validated = $request->validated();
+        $sprint = Sprint::findOrFail($validated['sprint_id'])->first();
+        $statusId = $project->getToDoStatusId($project);
+        $position = $sprint->getMaxPositionForTicket($statusId)+1;
         try {
             $ticket = Ticket::create([
+                'sprint_id' => $sprint->id,
                 'backlog_id' => $backlog->id,
                 'project_id' => $backlog->project_id,
                 'ticket_name' => $validated['ticket_name'],
+                'status_id' => $statusId,
+                'position' => $position,
                 'duration' => $validated['duration'],
                 'description' => $validated['description'],
                 'backlog_created_by' => $backlog->created_by,
                 'ticket_created_by' => auth()->id(),
             ]);
-            $sprintId = intval($validated['sprint_id']);
-            $sprintTicket = $ticket->insertSprintTicket($project->id, $sprintId, $ticket->id);
-            if(!$sprintTicket){
+            if(!$ticket){
                 $ticket->forceDelete();
                 return redirect()->route('backlogs',$project)->dangerBanner('An Unexpected Error Occured');
             }
