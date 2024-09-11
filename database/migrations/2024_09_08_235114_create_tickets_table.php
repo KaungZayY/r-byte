@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('position');
             $table->string('description')->nullable();
             $table->unsignedBigInteger('duration');
+            $table->unsignedBigInteger('time_taken')->nullable();
             $table->unsignedBigInteger('backlog_created_by');
             $table->unsignedBigInteger('ticket_created_by');
             $table->timestamps();

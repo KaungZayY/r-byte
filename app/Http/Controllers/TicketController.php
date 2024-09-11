@@ -19,6 +19,12 @@ class TicketController extends Controller
         $this->pHelper = new PermissionHelper();
     }
 
+    public function index(Project $project, Sprint $sprint)
+    {
+        $tickets = $sprint->tickets;
+        return view('tickets.index-ticket',compact('project','tickets'));
+    }
+
     public function create(Project $project, Backlog $backlog)
     {
         $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');

@@ -39,4 +39,9 @@ class Sprint extends Model
     {
         return Ticket::where('status_id', $statusId)->max('position') ?? 0;
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'sprint_id','id');
+    }
 }
