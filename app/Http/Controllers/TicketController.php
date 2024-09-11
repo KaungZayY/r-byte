@@ -21,8 +21,7 @@ class TicketController extends Controller
 
     public function index(Project $project, Sprint $sprint)
     {
-        $tickets = $sprint->tickets;
-        return view('tickets.index-ticket',compact('project','tickets'));
+        return view('tickets.index-ticket',compact('project','sprint'));
     }
 
     public function create(Project $project, Backlog $backlog)
