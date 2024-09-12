@@ -29,11 +29,14 @@ class SeederHelper{
 
     public function seedDefaultStatuses(Project $project, ...$statuses): void
     {
+        $position = 1;
         foreach ($statuses as $status){
             Status::create([
                 'project_id' => $project->id,
-                'status' => $status
+                'status' => $status,
+                'position' => $position,
             ]);
+            $position = $position + 1;
         }
     }
 }

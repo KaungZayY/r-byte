@@ -12,6 +12,7 @@ class Status extends Model
 
     protected $fillable = [
         'project_id',
-        'status'
+        'status',
+        'position'
     ];
 }

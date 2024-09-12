@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->id();
-            $table->integer('project_id');
+            $table->unsignedBigInteger('project_id');
             $table->string('status');
-            $table->integer('created_by')->nullable();
+            $table->integer('position');
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
