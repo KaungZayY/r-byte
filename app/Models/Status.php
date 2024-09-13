@@ -21,4 +21,9 @@ class Status extends Model
     {
         return self::where('project_id', $projectId)->max('position');
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class,'status_id','id');
+    }
 }

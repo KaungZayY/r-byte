@@ -25,7 +25,6 @@ return new class extends Migration
             $table->unsignedBigInteger('backlog_created_by');
             $table->unsignedBigInteger('ticket_created_by');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

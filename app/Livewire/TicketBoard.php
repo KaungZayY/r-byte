@@ -5,9 +5,12 @@ namespace App\Livewire;
 use App\Models\Status;
 use App\Models\Ticket;
 use Livewire\Component;
+use Laravel\Jetstream\InteractsWithBanner;
 
 class TicketBoard extends Component
 {
+    use InteractsWithBanner;
+
     public $project;
     public $sprint;
     public $pinnedStatuses = [];
@@ -50,6 +53,17 @@ class TicketBoard extends Component
         } 
         else {
             $this->pinnedStatuses[] = $statusId;
+        }
+    }
+
+    public function destroy(Status $status)
+    {
+        if ($status->exists && !$status->tickets()->exists()) {
+            $status->delete();
+            $this->banner('Column Removed.');
+        }
+        else{
+            $this->dangerBanner('Remove all tickets from this column across all sprints first.');
         }
     }
 }
