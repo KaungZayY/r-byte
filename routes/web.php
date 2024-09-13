@@ -6,6 +6,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SprintController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeammateController;
 use App\Http\Controllers\TicketController;
@@ -58,6 +59,9 @@ Route::patch('/backlogs/restore{id}', [BacklogController::class, 'restore'])->na
 Route::get('/project/{project}/sprint/{sprint}/tickets',[TicketController::class,'index'])->name('tickets');
 Route::get('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'create'])->name('tickets.create');
 Route::post('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'store']);
+
+Route::get('/project/{project}/sprint/{sprint}/statuses/create',[StatusController::class,'create'])->name('statuses.create');
+Route::post('/project/{project}/sprint/{sprint}/statuses/create',[StatusController::class,'store']);
 
 Route::get('/project/{project}/teams/index',[TeamController::class,'index'])->name('teams');
 Route::get('/project/{project}/teams/create',[TeamController::class,'create'])->name('teams.create');

@@ -13,6 +13,12 @@ class Status extends Model
     protected $fillable = [
         'project_id',
         'status',
-        'position'
+        'position',
+        'description'
     ];
+
+    public static function maxPosition($projectId): int
+    {
+        return self::where('project_id', $projectId)->max('position');
+    }
 }
