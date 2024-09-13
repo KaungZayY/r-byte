@@ -10,6 +10,7 @@ class TicketBoard extends Component
 {
     public $project;
     public $sprint;
+    public $pinnedStatuses = [];
 
     public function render()
     {
@@ -39,6 +40,16 @@ class TicketBoard extends Component
                     'position' => $ticketOrder['order'],
                 ]);
             }
+        }
+    }
+
+    public function togglePinStatus($statusId)
+    {
+        if (in_array($statusId, $this->pinnedStatuses)) {
+            $this->pinnedStatuses = array_values(array_diff($this->pinnedStatuses, [$statusId]));
+        } 
+        else {
+            $this->pinnedStatuses[] = $statusId;
         }
     }
 }
