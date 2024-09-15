@@ -14,12 +14,18 @@ class TicketBoard extends Component
     public $project;
     public $sprint;
     public $pinnedStatuses = [];
+    public $editStatusId = null;
+    public $editValues = [];
 
     public function render()
     {
         $sprint = $this->sprint;
         $project = $this->project;
         $statuses = $project->statuses()->orderBy('position')->get();
+        foreach ($statuses as $status) 
+        {
+            $this->editValues[$status->id] = $status->status;
+        }
         $tickets = $sprint->tickets()->orderBy('position')->get();
         return view('livewire.ticket-board',compact('statuses','tickets','sprint','project'));
     }
@@ -65,5 +71,22 @@ class TicketBoard extends Component
         else{
             $this->dangerBanner('Remove all tickets from this column across all sprints first.');
         }
+    }
+
+    public function edit(Status $status)
+    {
+        $this->editStatusId = $status->id;
+    }
+
+    public function update(Status $status)
+    {
+        $this->validate([
+            'editValues.' . $status->id => 'required|string|max:255',
+        ]);
+        $updated = $status->update([
+            'status' => $this->editValues[$status->id],
+        ]);
+        //Error Handling Here
+        $this->editStatusId = null;
     }
 }
