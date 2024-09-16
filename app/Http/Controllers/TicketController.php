@@ -63,4 +63,9 @@ class TicketController extends Controller
             return redirect()->route('backlogs',$project)->dangerBanner('An Error Occured');
         }
     }
+
+    public function addTeammate(Project $project, Ticket $ticket)
+    {
+        return view('tickets.assign-teammate',compact('project','ticket'));
+    }
 }

@@ -59,6 +59,7 @@ Route::patch('/backlogs/restore{id}', [BacklogController::class, 'restore'])->na
 Route::get('/project/{project}/sprint/{sprint}/tickets',[TicketController::class,'index'])->name('tickets');
 Route::get('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'create'])->name('tickets.create');
 Route::post('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'store']);
+Route::get('/project/{project}/ticket/{ticket}/assign',[TicketController::class,'addTeammate'])->name('tickets.assign');
 
 Route::get('/project/{project}/sprint/{sprint}/statuses/create',[StatusController::class,'create'])->name('statuses.create');
 Route::post('/project/{project}/sprint/{sprint}/statuses/create',[StatusController::class,'store']);
