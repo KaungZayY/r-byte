@@ -26,7 +26,7 @@ class TicketBoard extends Component
         {
             $this->editValues[$status->id] = $status->status;
         }
-        $tickets = $sprint->tickets()->orderBy('position')->get();
+        $tickets = $sprint->tickets()->with('teammates.user')->orderBy('position')->get();
         return view('livewire.ticket-board',compact('statuses','tickets','sprint','project'));
     }
 
@@ -80,13 +80,18 @@ class TicketBoard extends Component
 
     public function update(Status $status)
     {
+        $this->editStatusId = null;
         $this->validate([
             'editValues.' . $status->id => 'required|string|max:255',
         ]);
-        $updated = $status->update([
-            'status' => $this->editValues[$status->id],
-        ]);
-        //Error Handling Here
-        $this->editStatusId = null;
+        try {
+            $status->update([
+                'status' => $this->editValues[$status->id],
+            ]);
+            $this->banner('Column Updated.');
+        } catch (\Throwable $th) {
+            $this->dangerBanner('Action Failed.');
+        }
+        
     }
 }

@@ -23,4 +23,9 @@ class Ticket extends Model
         'ticket_created_by'
     ];
 
+    public function teammates()
+    {
+        return $this->belongsToMany(Teammate::class,'teammate_ticket');
+    }
+
 }

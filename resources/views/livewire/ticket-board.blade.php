@@ -89,6 +89,28 @@
                             <div wire:sortable-group.handle>
                                 <p class="font-semibold text-gray-900 dark:text-gray-100">{{ $ticket->ticket_name }}</p>
                                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 max-h-4 overflow-hidden hover:max-h-none hover:overflow-auto transition-max-h duration-300">{{ $ticket->description }}</p>
+                                <!-- Teammates : -->
+                                <div class="mt-3">
+                                    <p class="font-bold text-gray-800 dark:text-gray-200">Teammates:</p>
+                                    <div class="flex space-x-2 mt-1 overflow-auto">
+                                        <form action="" method="GET">
+                                            <button title="Assign">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-8 h-8 fill-gray-400 dark:fill-white">
+                                                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                        @foreach ($ticket->teammates as $teammate)
+                                            <!-- Generate initials from the name -->
+                                            @php
+                                                $initials = collect(explode(' ', $teammate->user->name))->map(fn($name) => Str::upper($name[0]))->join('');
+                                            @endphp
+                                            <div class="min-w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold text-sm">
+                                                {{ $initials }}
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     @endforeach

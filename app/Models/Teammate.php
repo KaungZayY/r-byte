@@ -24,4 +24,9 @@ class Teammate extends Model
     {
         return $this->belongsTo(User::class,'user_id','id');
     }
+
+    public function tickets()
+    {
+        return $this->belongsToMany(Teammate::class, 'teammate_ticket');
+    }
 }
