@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Status;
+use App\Models\Teammate;
 use App\Models\Ticket;
 use Livewire\Component;
 use Laravel\Jetstream\InteractsWithBanner;
@@ -93,5 +94,10 @@ class TicketBoard extends Component
             $this->dangerBanner('Action Failed.');
         }
         
+    }
+
+    public function removeAssignee(Ticket $ticket, Teammate $teammate)
+    {
+        $ticket->teammates()->detach($teammate);
     }
 }
