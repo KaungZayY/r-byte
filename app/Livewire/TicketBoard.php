@@ -82,18 +82,20 @@ class TicketBoard extends Component
     public function update(Status $status)
     {
         $this->editStatusId = null;
-        $this->validate([
-            'editValues.' . $status->id => 'required|string|max:255',
+        $status->update([
+            'status' => $this->editValues[$status->id],
         ]);
-        try {
-            $status->update([
-                'status' => $this->editValues[$status->id],
-            ]);
-            $this->banner('Column Updated.');
-        } catch (\Throwable $th) {
-            $this->dangerBanner('Action Failed.');
-        }
-        
+        // $this->validate([
+        //     'editValues.' . $status->id => 'required|string|max:255',
+        // ]);
+        // try {
+        //     $status->update([
+        //         'status' => $this->editValues[$status->id],
+        //     ]);
+        //     $this->banner('Column Updated.');
+        // } catch (\Throwable $th) {
+        //     $this->dangerBanner('Action Failed.');
+        // }
     }
 
     public function removeAssignee(Ticket $ticket, Teammate $teammate)
