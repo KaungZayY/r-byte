@@ -25,7 +25,7 @@
                                     <option value="{{ $sprint->id }}">{{ $sprint->sprint_name }}</option>
                                 @endforeach
                             </select>
-                            @error('role_id')
+                            @error('sprint_id')
                                 <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                             @enderror
                         </div>

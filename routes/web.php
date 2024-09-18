@@ -57,6 +57,7 @@ Route::delete('/backlogs/force-delete{id}',[BacklogController::class,'forceRemov
 Route::patch('/backlogs/restore{id}', [BacklogController::class, 'restore'])->name('backlogs.restore');
 
 Route::get('/project/{project}/sprint/{sprint}/tickets',[TicketController::class,'index'])->name('tickets');
+Route::get('/ticket/{ticket}/detail',[TicketController::class,'detail'])->name('tickets.detail');
 Route::get('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'create'])->name('tickets.create');
 Route::post('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'store']);
 Route::get('/project/{project}/ticket/{ticket}/assign',[TicketController::class,'addTeammate'])->name('tickets.assign');

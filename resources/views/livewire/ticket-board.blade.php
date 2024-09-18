@@ -87,7 +87,7 @@
                     @foreach ($tickets->where('status_id', $status->id) as $ticket)
                         <div wire:sortable-group.item="{{ $ticket->id }}" wire:key="task-{{ $ticket->id }}" class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-transform transform hover:scale-105 cursor-grab select-none">
                             <div wire:sortable-group.handle>
-                                <p class="font-semibold text-gray-900 dark:text-gray-100">{{ $ticket->ticket_name }}</p>
+                                <a href="{{route('tickets.detail',$ticket)}}" class="font-semibold text-gray-900 dark:text-gray-100 hover:underline">{{ $ticket->ticket_name }}</a>
                                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 max-h-4 overflow-hidden hover:max-h-none hover:overflow-auto transition-max-h duration-300">{{ $ticket->description }}</p>
                                 <!-- Teammates : -->
                                 <div class="mt-3">

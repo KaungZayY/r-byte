@@ -24,6 +24,12 @@ class TicketController extends Controller
         return view('tickets.index-ticket',compact('project','sprint'));
     }
 
+    public function detail(Ticket $ticket)
+    {
+        $ticket->load('project','sprint','backlog','status','backlog_created_by_user','ticket_created_by_user');
+        return view('tickets.detail-ticket',compact('ticket'));
+    }
+
     public function create(Project $project, Backlog $backlog)
     {
         $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');
