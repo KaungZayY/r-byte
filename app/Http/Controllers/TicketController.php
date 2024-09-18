@@ -35,7 +35,8 @@ class TicketController extends Controller
     {
         $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');
         $validated = $request->validated();
-        $sprint = Sprint::findOrFail($validated['sprint_id'])->first();
+        $sprint_id = intval($validated['sprint_id']);
+        $sprint = Sprint::findOrFail($sprint_id);
         $statusId = $project->getToDoStatusId($project);
         $position = $sprint->getMaxPositionForTicket($statusId)+1;
         try {

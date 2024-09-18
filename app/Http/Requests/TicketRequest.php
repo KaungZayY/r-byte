@@ -16,7 +16,7 @@ class TicketRequest extends FormRequest
     {
         return [
             'ticket_name' => 'required|string|max:255',
-            'sprint_id' => 'required|exists:sprints,id',
+            'sprint_id' => 'required|exists:sprints,id|numeric',
             'duration' => 'required|integer',
             'description' => 'nullable|max:512'
         ];

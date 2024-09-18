@@ -22,7 +22,7 @@
                             <x-label for="sprint_id" value="{{ __('Sprint') }}" />
                             <select id="sprint_id" name="sprint_id" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 @foreach($sprints as $sprint)
-                                    <option value="{{ $sprint->id }}" {{ old('sprint_id') == $sprint->id ? 'selected' : '' }}>{{ $sprint->sprint_name }}</option>
+                                    <option value="{{ $sprint->id }}">{{ $sprint->sprint_name }}</option>
                                 @endforeach
                             </select>
                             @error('role_id')
