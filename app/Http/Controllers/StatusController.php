@@ -32,7 +32,7 @@ class StatusController extends Controller
         } 
         catch (\Exception $e) 
         {
-            dd($e);
+            // dd($e);
             return redirect()->route('tickets',['project'=>$project, 'sprint'=>$sprint])->dangerBanner('An Error Occured');
         }
     }

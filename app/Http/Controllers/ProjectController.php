@@ -79,6 +79,7 @@ class ProjectController extends Controller
 
     public function detail(Project $project)
     {
-        return view('projects.details-project',compact('project'));
+        $sprint = $project->sprints()->where('status','active')->first();
+        return view('projects.details-project',compact('project','sprint'));
     }
 }
