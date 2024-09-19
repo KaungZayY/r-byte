@@ -10,7 +10,17 @@
             </form>
             <span>{{ $sprint->sprint_name }}</span>
         </div>
-        <div>
+        <div class="flex items-end space-x-2">
+            @if (viewContent($project, 'Backlogs', 'Create'))
+                <form action="{{route('tickets.direct-create',['project'=>$project,'sprint'=>$sprint])}}" method="GET">
+                    <button title="Create New Ticket" type="submit" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 dark:bg-teal-500 hover:bg-teal-700 dark:hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="24" width="24" class="mr-2 fill-current">
+                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                        </svg>
+                        Ticket
+                    </button>
+                </form>
+            @endif
             <form action="{{route('statuses.create',['project'=>$project, 'sprint'=>$sprint])}}" method="GET">
                 <button type="submit" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 dark:bg-purple-500 hover:bg-purple-700 dark:hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="24" width="24" class="mr-2 fill-current">

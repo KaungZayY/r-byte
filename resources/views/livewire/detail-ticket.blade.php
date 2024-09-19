@@ -14,7 +14,7 @@
                 <div class="flex items-center">
                     <x-label for="backlog_id" value="{{ __('Based on Backlog') }}" class="mr-4 w-1/4" />
                     <x-input id="backlog_id" class="block w-3/4 bg-gray-50 text-gray-500 dark:bg-gray-500 dark:text-gray-500" type="text" name="backlog_id"
-                        value="{{ $ticket->backlog->backlog }}" readonly />
+                        value="{{ $ticket->backlog?->backlog }}" readonly />
                 </div>
             </div>
             <div class="mt-4">
@@ -72,7 +72,7 @@
                     <x-label for="backlog_created_by" value="{{ __('Backlog by') }}" class="mr-4 w-1/4" />
                     <x-input id="backlog_created_by" class="block w-3/4 bg-gray-50 text-gray-500 dark:bg-gray-500 dark:text-gray-500" type="text"
                         name="backlog_created_by" autofocus
-                        value="{{ $ticket->backlog_created_by_user->name }}" readonly />
+                        value="{{ $ticket->backlog_created_by_user?->name }}" readonly />
                 </div>
             </div>
             <div class="mt-4">

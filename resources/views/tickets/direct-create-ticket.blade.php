@@ -1,0 +1,61 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 text-center leading-tight">
+            {{ __('Create Ticket to ') }}{{$project->project_name}}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-black overflow-hidden shadow-xl sm:rounded-lg">
+                <form action="{{route('tickets.direct-create',['project'=>$project,'sprint'=>$sprint])}}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="px-16 md:px-40 lg:px-80">
+                        <div class="mt-4">
+                            <x-label for="ticket_name" value="{{ __('Ticket Name') }}" />
+                            <x-input id="ticket_name" class="block mt-1 w-full" type="text" name="ticket_name" />
+                            @error('backlog')
+                                <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <x-label for="sprint_id" value="{{ __('Sprint') }}" />
+                            <select id="sprint_id" name="sprint_id" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                @foreach($sprints as $s)
+                                    <option value="{{ $s->id }}" {{$s->id === $sprint->id ? 'selected':''}}>{{ $s->sprint_name }}</option>
+                                @endforeach
+                            </select>
+                            @error('sprint_id')
+                                <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <x-label for="duration" value="{{ __('Duration (in minutes)') }}" />
+                            <x-input id="duration" class="block mt-1 w-full" type="number" name="duration" autofocus />
+                            @error('duration')
+                                <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mt-4">
+                            <x-label for="description" value="{{ __('Description') }}" />
+                            <x-text-area name="description" id="description" rows="4" class="w-full px-4 py-2"></x-text-area>
+                            @error('description')
+                                <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="flex items-center justify-end mt-4 mb-2">
+                            <x-button-cancel :cancelRoute="route('tickets',['project'=>$project,'sprint'=>$sprint])">
+                                {{__('Cancel')}}
+                            </x-button-cancel>
+            
+                            <x-button class="ms-4">
+                                {{ __('Create') }}
+                            </x-button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

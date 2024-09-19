@@ -60,6 +60,8 @@ Route::get('/project/{project}/sprint/{sprint}/tickets',[TicketController::class
 Route::get('/ticket/{ticket}/detail',[TicketController::class,'detail'])->name('tickets.detail');
 Route::get('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'create'])->name('tickets.create');
 Route::post('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'store']);
+Route::get('/project/{project}/sprint/{sprint}/tickets/create',[TicketController::class,'directCreate'])->name('tickets.direct-create');
+Route::put('/project/{project}/sprint/{sprint}/tickets/create',[TicketController::class,'directStore']);
 Route::get('/project/{project}/ticket/{ticket}/assign',[TicketController::class,'addTeammate'])->name('tickets.assign');
 
 Route::get('/project/{project}/sprint/{sprint}/statuses/create',[StatusController::class,'create'])->name('statuses.create');

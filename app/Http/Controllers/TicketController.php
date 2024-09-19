@@ -71,6 +71,41 @@ class TicketController extends Controller
         }
     }
 
+    public function directCreate(Project $project, Sprint $sprint)
+    {
+        $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');
+        $sprints = $project->sprints;
+        return view('tickets.direct-create-ticket',compact('project','sprint','sprints'));
+    }
+
+    public function directStore(Project $project, Sprint $sprint, TicketRequest $request)
+    {
+        $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');
+        $validated = $request->validated();
+        $sprint_id = intval($validated['sprint_id']);
+        $statusId = $project->getToDoStatusId($project);
+        $position = $sprint->getMaxPositionForTicket($statusId)+1;
+        try 
+        {
+            Ticket::create([
+                'sprint_id' => $sprint_id,
+                'project_id' => $project->id,
+                'ticket_name' => $validated['ticket_name'],
+                'status_id' => $statusId,
+                'position' => $position,
+                'duration' => $validated['duration'],
+                'description' => $validated['description'],
+                'ticket_created_by' => auth()->id(),
+            ]);
+            return redirect()->route('tickets',['project'=>$project,'sprint'=>$sprint])->banner('Ticket created.');
+
+        } catch (\Exception $e) 
+        {
+            return redirect()->route('backlogs',['project'=>$project,'sprint'=>$sprint])->dangerBanner('An Error Occured');
+        }
+
+    }
+
     public function addTeammate(Project $project, Ticket $ticket)
     {
         return view('tickets.assign-teammate',compact('project','ticket'));

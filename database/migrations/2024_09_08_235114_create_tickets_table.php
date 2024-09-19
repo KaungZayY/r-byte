@@ -14,15 +14,14 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sprint_id');
-            $table->unsignedBigInteger('backlog_id');
+            $table->unsignedBigInteger('backlog_id')->nullable();
             $table->unsignedBigInteger('project_id');
             $table->string('ticket_name');
             $table->unsignedBigInteger('status_id');
             $table->unsignedBigInteger('position');
             $table->string('description')->nullable();
             $table->unsignedBigInteger('duration');
-            $table->unsignedBigInteger('time_taken')->nullable();
-            $table->unsignedBigInteger('backlog_created_by');
+            $table->unsignedBigInteger('backlog_created_by')->nullable();
             $table->unsignedBigInteger('ticket_created_by');
             $table->timestamps();
         });
