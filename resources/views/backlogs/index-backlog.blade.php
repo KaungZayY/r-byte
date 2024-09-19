@@ -9,6 +9,18 @@
                 <p class="text-sm leading-6 font-medium text-gray-900 dark:text-white">
                     Total Backlogs : {{ $backlogsCount }}
                 </p>
+                <form action="{{route('backlogs',$project)}}" method="GET">
+                    <div class="flex flex-row">
+                        <select name="filter" id="filter" class="block w-3/4 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <option value="">- All Statuses -</option>
+                            <option value="pending" {{$filter === 'pending'?'selected':''}}>Pending</option>
+                            <option value="assigned" {{$filter === 'assigned'?'selected':''}}>Assigned</option>
+                        </select>
+                        <button type="submit" title="Filter by Status" class="ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Filter
+                        </button>
+                    </div>
+                </form>
                 <div class="flex space-x-4 items-center">
                     @if (viewContent($project, 'Backlogs', 'Archives'))
                         <form action="{{route('backlogs.archives',$project)}}" method="GET">

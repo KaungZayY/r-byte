@@ -17,12 +17,19 @@ class BacklogController extends Controller
         $this->pHelper = new PermissionHelper();
     }
 
-    public function index(Project $project)
+    public function index(Project $project, Request $request)
     {
         $this->pHelper->authorizeUser($project,'Backlogs','View');
-        $backlogs = $project->backlogs()->with('user')->get();
-        $backlogsCount = $project->backlogs()->count();
-        return view('backlogs.index-backlog',compact('backlogs','project','backlogsCount'));
+        $filter = $request->filter;
+        if(isset($filter)){
+            $backlogs = $project->backlogs()->where('status',$filter)->with('user')->get();
+            $backlogsCount = $project->backlogs()->where('status',$filter)->count();
+        }
+        else{
+            $backlogs = $project->backlogs()->with('user')->get();
+            $backlogsCount = $project->backlogs()->count();
+        }
+        return view('backlogs.index-backlog',compact('backlogs','project','backlogsCount','filter'));
     }
 
     public function create(Project $project)
