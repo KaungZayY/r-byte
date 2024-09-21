@@ -4,7 +4,6 @@ namespace App\Helpers;
 use App\Models\Feature;
 use App\Models\Project;
 use App\Models\Status;
-use Ramsey\Uuid\Type\Integer;
 
 class SeederHelper{
 
@@ -43,14 +42,14 @@ class SeederHelper{
         }
     }
 
-    private function checkStartAndFinishStatuses($status): ?int
+    private function checkStartAndFinishStatuses($status): ?String
     {
         $status = strtolower($status);
         if($status === 'to do'){
-            return 1;
+            return 'Initial Column';
         }
         else if($status === 'done'){
-            return 2;
+            return 'Final Column';
         }
         return null;
     }
