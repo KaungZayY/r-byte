@@ -63,7 +63,7 @@
                     <!-- Tickets -->
                     @foreach ($tickets->where('status_id', $status->id) as $ticket)
                         <div wire:sortable-group.item="{{ $ticket->id }}" wire:key="task-{{ $ticket->id }}" class="bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-transform transform hover:scale-105 cursor-grab select-none">
-                            <div wire:sortable-group.handle>
+                            <div x-data="{ tracker: false }" x-cloak wire:sortable-group.handle>
                                 <a href="{{route('tickets.detail',$ticket)}}" class="font-semibold text-gray-900 dark:text-gray-100 hover:underline">{{ $ticket->ticket_name }}</a>
                                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 max-h-4 overflow-hidden hover:max-h-none hover:overflow-auto transition-max-h duration-300">{{ $ticket->description }}</p>
                                 <!-- Teammates : -->
@@ -95,6 +95,20 @@
                                                 </div>
                                             </div>
                                         @endforeach
+                                    </div>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button x-on:click = "tracker = ! tracker" class="fill-black dark:fill-white w-5 h-5">
+                                        <svg x-show="!tracker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM135 241c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l87 87 87-87c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L273 345c-9.4 9.4-24.6 9.4-33.9 0L135 241z"/></svg>
+                                        <svg x-show="tracker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM377 271c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-87-87-87 87c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 167c9.4-9.4 24.6-9.4 33.9 0L377 271z"/></svg>
+                                    </button>
+                                </div>
+                                <div x-show="tracker">
+                                    <div class="mt-2">
+                                        <div class="mt-4 flex items-center">
+                                            <x-label for="time_taken" value="{{ __('Time Taken:') }}" class="mr-4 w-1/4" />
+                                            <x-input  id="time_taken" class="block w-3/4" type="number" name="time_taken" autofocus />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
