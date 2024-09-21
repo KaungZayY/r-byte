@@ -14,7 +14,6 @@ class Status extends Model
         'project_id',
         'status',
         'position',
-        'status_type',
         'description'
     ];
 
