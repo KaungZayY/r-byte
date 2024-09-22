@@ -69,6 +69,7 @@ class TicketBoard extends Component
 
     protected $rules = [
         'timeTaken.*' => 'required|integer|min:1',
+        'editValues.*' => 'required|string|max:255',
     ];
 
     protected function messages()
@@ -77,6 +78,10 @@ class TicketBoard extends Component
             'timeTaken.*.required' => 'Fill the time taken field.',
             'timeTaken.*.integer' => 'The time taken must be a valid number.',
             'timeTaken.*.min' => 'The time taken must be at least 1 minutes.',
+
+            'editValues.*.required' => 'Please provide a column name.',
+            'editValues.*.string' => 'The column name should be a valid text.',
+            'editValues.*.max' => 'The column name is too long.',
         ];
     }
 
@@ -128,21 +133,18 @@ class TicketBoard extends Component
 
     public function update(Status $status)
     {
-        $this->editStatusId = null;
-        $status->update([
+        $this->validate([
+            'editValues.' . $status->id => 'required|string|max:255',
+        ]);
+        $updated = $status->update([
             'status' => $this->editValues[$status->id],
         ]);
-        // $this->validate([
-        //     'editValues.' . $status->id => 'required|string|max:255',
-        // ]);
-        // try {
-        //     $status->update([
-        //         'status' => $this->editValues[$status->id],
-        //     ]);
-        //     $this->banner('Column Updated.');
-        // } catch (\Throwable $th) {
-        //     $this->dangerBanner('Action Failed.');
-        // }
+        if (!$updated) {
+            $this->dangerBanner('Action Failed.');
+        } else {
+            $this->banner('Column Updated.');
+        }
+        $this->editStatusId = null;
     }
 
     public function removeAssignee(Ticket $ticket, Teammate $teammate)

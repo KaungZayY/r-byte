@@ -59,6 +59,13 @@
             </div>
             <div class="mt-4">
                 <div class="mt-4 flex items-center">
+                    <x-label for="time_taken" value="{{ __('Total Minutes Taken') }}" class="mr-4 w-1/4" />
+                    <x-input id="time_taken" class="block w-3/4 bg-gray-50 text-gray-500 dark:bg-gray-500 dark:text-gray-500" type="text" name="time_taken"
+                        value="{{ $ticket->total_time_taken() }}" readonly />
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="mt-4 flex items-center">
                     <x-label for="description" value="{{ __('Description') }}" class="mr-4 w-1/4" />
                     <x-text-area wire:model="description" name="description" id="description" rows="4" class="w-3/4 px-4 py-2"
                         value="{{ $ticket->description }}" x-bind:readonly="! edit" x-bind:class="!edit && 'bg-gray-50 text-gray-500 dark:bg-gray-500 dark:text-gray-500'"></x-text-area>
