@@ -31,12 +31,26 @@ class SeederHelper{
     {
         $position = 1;
         foreach ($statuses as $status){
+            $status_type = $this->checkStartAndFinishStatuses($status);
             Status::create([
                 'project_id' => $project->id,
                 'status' => $status,
+                'status_type' => $status_type,
                 'position' => $position,
             ]);
             $position = $position + 1;
         }
+    }
+
+    private function checkStartAndFinishStatuses($status): ?int
+    {
+        $status = strtolower($status);
+        if($status === 'to do'){
+            return 1;
+        }
+        else if($status === 'done'){
+            return 2;
+        }
+        return null;
     }
 }

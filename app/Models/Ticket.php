@@ -57,4 +57,18 @@ class Ticket extends Model
     {
         return $this->belongsTo(User::class,'ticket_created_by','id');
     }
+
+    public function ticket_trackers()
+    {
+        return $this->hasMany(TicketTracker::class,'ticket_id','id');
+    }
+
+    public function total_time_taken()
+    {
+        $total_time = 0;
+        foreach ($this->ticket_trackers  as $ticket_tracker){
+            $total_time += $ticket_tracker->time_taken;
+        }
+        return $total_time;
+    }
 }
