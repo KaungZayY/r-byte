@@ -63,9 +63,9 @@
                     <!-- Tickets -->
                     @foreach ($tickets->where('status_id', $status->id) as $ticket)
                         <div wire:sortable-group.item="{{ $ticket->id }}" wire:key="task-{{ $ticket->id }}" class="min-h-40 bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-transform transform hover:scale-105 cursor-grab select-none">
-                            <div wire:sortable-group.handle>
+                            <div x-data="{ tracker: false }" x-cloak wire:sortable-group.handle>
                                 <a href="{{route('tickets.detail',$ticket)}}" class="font-semibold text-gray-900 dark:text-gray-100 hover:underline">{{ $ticket->ticket_name }}</a>
-                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 max-h-4 overflow-hidden hover:max-h-none hover:overflow-auto transition-max-h duration-300">{{ $ticket->description }}</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 h-4 overflow-hidden hover:max-h-none hover:overflow-auto transition-max-h duration-300">{{ $ticket->description }}</p>
                                 <!-- Teammates : -->
                                 <div class="mt-3">
                                     <p class="font-bold text-gray-800 dark:text-gray-200">Teammates:</p>
@@ -97,6 +97,39 @@
                                         @endforeach
                                     </div>
                                 </div>
+                                <div class="flex flex-col space-y-2">
+                                    <div class="flex flex-row justify-between items-center">
+                                        <p class="text-sm">Total Time Spent: {{$ticket->total_time_taken()}} Minutes</p>
+                                
+                                        @if ($status->status_type != 1 && $status->status_type != 2)
+                                            <button x-on:click="tracker = !tracker" class="fill-black dark:fill-white w-5 h-5">
+                                                <!-- Down Arrow Icon -->
+                                                <svg x-show="!tracker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                    <path d="M256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM135 241c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l87 87 87-87c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L273 345c-9.4 9.4-24.6 9.4-33.9 0L135 241z"/>
+                                                </svg>
+                                                <!-- Up Arrow Icon -->
+                                                <svg x-show="tracker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM377 271c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-87-87-87 87c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 167c9.4-9.4 24.6-9.4 33.9 0L377 271z"/>
+                                                </svg>
+                                            </button>
+                                        @endif
+                                    </div>
+                                    <div x-show="tracker" class="space-y-2">
+                                        <div class="flex items-center space-x-4">
+                                            <x-label for="time_taken_{{ $ticket->id }}" value="{{ __('Time Taken:') }}" class="w-1/4" />
+                                            <x-input wire:model.defer="timeTaken.{{ $ticket->id }}" id="time_taken_{{ $ticket->id }}" class="w-3/4" type="number" name="time_taken_{{ $ticket->id }}" autofocus />
+                                        </div>        
+                                        @error('timeTaken.' . $ticket->id)
+                                            <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+                                        @enderror
+                                        <div class="flex justify-end">
+                                            <button wire:click="addTimeTaken({{ $ticket }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded-md">
+                                                Add
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                     @endforeach
