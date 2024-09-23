@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Helpers\PermissionHelper;
 use App\Models\Team;
 use App\Models\Teammate;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class AssignTeammate extends Component
@@ -60,6 +61,7 @@ class AssignTeammate extends Component
 
         } catch (\Exception $e) {
 
+            Log::error($e->getMessage());
             session()->flash('flash.banner', 'Cannot Assign User to the Ticket.');
             session()->flash('flash.bannerStyle', 'danger');
             

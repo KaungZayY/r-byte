@@ -7,6 +7,7 @@ use App\Http\Requests\BacklogRequest;
 use App\Models\Backlog;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BacklogController extends Controller
 {
@@ -56,6 +57,7 @@ class BacklogController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('backlogs',$project)->dangerBanner('An Error Occured');
         }
     }
@@ -74,6 +76,7 @@ class BacklogController extends Controller
             return redirect()->route('backlogs',$project)->banner('Backlog Updated.');
         }
         catch(\Exception $e){
+            Log::error($e->getMessage());
             return redirect()->route('backlogs',$project)->dangerBanner('Cannot Update the Backlog');
         }
     }
@@ -93,6 +96,7 @@ class BacklogController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('backlogs',$project)->dangerBanner('An Error Occured');
         }
     }

@@ -7,6 +7,7 @@ use App\Http\Requests\TeamRequest;
 use App\Models\Project;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TeamController extends Controller
 {
@@ -49,6 +50,7 @@ class TeamController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('teams',$project)->dangerBanner('An Error Occured');
         }
     }
@@ -67,6 +69,7 @@ class TeamController extends Controller
             return redirect()->route('teams',$project)->banner('Team Updated.');
         }
         catch(\Exception $e){
+            Log::error($e->getMessage());
             return redirect()->route('teams',$project)->dangerBanner('Cannot Update the Team');
         }
     }
@@ -89,6 +92,7 @@ class TeamController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('teams',$project)->dangerBanner('Cannot remove this team.');
         }
     }

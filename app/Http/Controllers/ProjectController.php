@@ -7,6 +7,7 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Database\Seeders\StatusSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -33,7 +34,8 @@ class ProjectController extends Controller
         } 
         catch (\Exception $e) 
         {
-            dd($e);
+            // dd($e);
+            Log::error($e->getMessage());
             return redirect()->route('dashboard')->dangerBanner('An Error Occured');
         }
     }
@@ -50,6 +52,7 @@ class ProjectController extends Controller
             return redirect()->route('dashboard')->banner('Project Detail Updated.');
         }
         catch(\Exception $e){
+            Log::error($e->getMessage());
             return redirect()->route('dashboard')->dangerBanner('Cannot Update the Project Detail');
         }
     }
@@ -73,6 +76,7 @@ class ProjectController extends Controller
             $project->delete();
             return redirect()->route('dashboard')->banner('Project Deleted');
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return redirect()->route('dashboard')->dangerBanner('Cannot Delete the Project');
         }
     }

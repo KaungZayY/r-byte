@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\Teammate;
 use App\Models\Ticket;
 use App\Models\TicketTracker;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Laravel\Jetstream\InteractsWithBanner;
 
@@ -98,13 +99,15 @@ class TicketBoard extends Component
             ]);
             $ticketTracker = $ticket->ticket_trackers()->where('new_status_id',$ticket->status->id)->first();
             $totalTimeTaken = $this->timeTaken[$ticket->id] + $ticketTracker->time_taken;
-            $updated = $ticketTracker->update([
-                'time_taken' => $totalTimeTaken
-            ]);
-            if (!$updated) {
-                $this->dangerBanner('Failed to update the ticket duration.');
-            } else {
+            try {
+                $ticketTracker->update([
+                    'time_taken' => $totalTimeTaken
+                ]);
                 $this->banner('Ticket duration updated successfully.');
+            } 
+            catch (\Exception $e) {
+                Log::error($e->getMessage());
+                $this->dangerBanner('Failed to update the ticket duration.');
             }
         }
         $this->timeTaken[$ticket->id] = 0;   
@@ -144,13 +147,15 @@ class TicketBoard extends Component
         $this->validate([
             'editValues.' . $status->id => 'required|string|max:255',
         ]);
-        $updated = $status->update([
-            'status' => $this->editValues[$status->id],
-        ]);
-        if (!$updated) {
-            $this->dangerBanner('Action Failed.');
-        } else {
+        try {
+            $status->update([
+                'status' => $this->editValues[$status->id],
+            ]);
             $this->banner('Column Updated.');
+        } 
+        catch (\Exception $e) {
+            Log::error($e->getMessage());
+            $this->dangerBanner('Action Failed.');
         }
         $this->editStatusId = null;
     }
@@ -159,5 +164,16 @@ class TicketBoard extends Component
     {
         $pHelper->authorizeUser($this->project,'Tickets','RemoveTeammate');
         $ticket->teammates()->detach($teammate);
+        try {
+
+            $ticket->teammates()->detach($teammate);
+            $this->banner('Assigned user removed.');
+
+        } 
+        catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            $this->banner('Action Failed.');
+        }
     }
 }

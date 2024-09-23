@@ -6,6 +6,7 @@ use App\Helpers\PermissionHelper;
 use App\Http\Requests\RoleRequest;
 use App\Models\Project;
 use App\Models\Role;
+use Illuminate\Support\Facades\Log;
 
 class RoleController extends Controller
 {
@@ -47,6 +48,7 @@ class RoleController extends Controller
         catch (\Exception $e) 
         {
             // dd($e);
+            Log::error($e->getMessage());
             return redirect()->route('roles')->dangerBanner('An Error Occured');
         }
     }
@@ -66,6 +68,7 @@ class RoleController extends Controller
         }
         catch (\Exception $e)
         {
+            Log::error($e->getMessage());
             return redirect()->route('roles',$project)->dangerBanner('Cannot Update the Role');
         }
     }
@@ -83,6 +86,7 @@ class RoleController extends Controller
             return redirect()->route('roles',$project)->banner('Role Moved to Archives.');
         }
         catch (\Exception $e){
+            Log::error($e->getMessage());
             return redirect()->route('roles',$project)->dangerBanner('Cannot Delete the Role');
         }
     }

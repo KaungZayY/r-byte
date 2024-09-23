@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Team;
 use App\Models\Teammate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TeammateController extends Controller
 {
@@ -42,6 +43,7 @@ class TeammateController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('invites',$team)->dangerBanner('Cannot remove this user form the team');
         }
     }

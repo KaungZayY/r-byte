@@ -10,6 +10,7 @@ use App\Models\Teammate;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
@@ -62,6 +63,7 @@ class InvitationController extends Controller
             return redirect()->route('teammates',[$team->project, $team])->banner('Invitation sent successfully.');
         } catch (\Exception $e) {
             // dd($e);
+            Log::error($e->getMessage());
             return redirect()->route('invites',$team)->dangerBanner('Cannot Invite this user at the moment');
         }
     }
@@ -93,6 +95,7 @@ class InvitationController extends Controller
 
         } catch (\Exception $e) {
             $messageType = 'invalid';
+            Log::error($e->getMessage());
             return view('invitations.message-invitation',compact('teamName'));
         }
     }

@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Helpers\PermissionHelper;
 use App\Models\Ticket;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class DetailTicket extends Component
@@ -64,6 +66,7 @@ class DetailTicket extends Component
             session()->flash('flash.banner', 'Ticket Info Updated.');
             session()->flash('flash.bannerStyle', 'success');
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             session()->flash('flash.banner', 'Cannot Update Ticket Info.');
             session()->flash('flash.bannerStyle', 'danger');
         }
@@ -73,14 +76,14 @@ class DetailTicket extends Component
     public function destroy(Ticket $ticket, PermissionHelper $pHelper)
     {
         $pHelper->authorizeUser($this->project,'Tickets','Delete');
-        $deleted = $ticket->delete();
-        if(!$deleted){
-            session()->flash('flash.banner', 'Action Failed.');
-            session()->flash('flash.bannerStyle', 'danger');
-        }
-        else{
+        try {
+            $ticket->delete();
             session()->flash('flash.banner', 'Ticket Deleted.');
             session()->flash('flash.bannerStyle', 'success');
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            session()->flash('flash.banner', 'Action Failed.');
+            session()->flash('flash.bannerStyle', 'danger');
         }
         return redirect()->route('tickets', ['project' => $this->ticket->project,'sprint' => $this->default_sprint_id]);
     }

@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Sprint;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SprintController extends Controller
 {
@@ -69,6 +70,7 @@ class SprintController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('sprints',$project)->dangerBanner('An Error Occured');
         }
     }
@@ -124,6 +126,7 @@ class SprintController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('sprints.edit', [$project, $sprint])->dangerBanner('An Error Occurred');
         }
     }
@@ -143,6 +146,7 @@ class SprintController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('sprints',$sprint->project)->dangerBanner('An Error Occured');
         }
     }

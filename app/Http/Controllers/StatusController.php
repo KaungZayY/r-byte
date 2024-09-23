@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\Sprint;
 use App\Models\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StatusController extends Controller
 {
@@ -44,6 +45,7 @@ class StatusController extends Controller
         catch (\Exception $e) 
         {
             // dd($e);
+            Log::error($e->getMessage());
             return redirect()->route('tickets',['project'=>$project, 'sprint'=>$sprint])->dangerBanner('An Error Occured');
         }
     }

@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserRoleController extends Controller
 {
@@ -43,6 +44,7 @@ class UserRoleController extends Controller
             return redirect()->route('teammates',[$project,$team])->banner('Role has been successfully assigned.');
         } 
         catch (\Exception $e) {
+            Log::error($e->getMessage());
             return redirect()->route('teammates',[$project,$team])->dangerBanner('Cannot assign role to this user');
         }
     }
@@ -71,6 +73,7 @@ class UserRoleController extends Controller
             return redirect()->route('teammates',[$project,$team])->banner('Role has been successfully updated.');
         } 
         catch (\Exception $e) {
+            Log::error($e->getMessage());
             return redirect()->route('teammates',[$project,$team])->dangerBanner('Cannot update role to this user');
         }
     }

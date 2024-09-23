@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\Sprint;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
@@ -66,6 +67,7 @@ class TicketController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('backlogs',$project)->dangerBanner('An Error Occured');
         }
     }
@@ -101,6 +103,7 @@ class TicketController extends Controller
 
         } catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('backlogs',['project'=>$project,'sprint'=>$sprint])->dangerBanner('An Error Occured');
         }
 
