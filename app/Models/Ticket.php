@@ -71,4 +71,19 @@ class Ticket extends Model
         }
         return $total_time;
     }
+
+    public function total_time_formatted()
+    {
+        $minutes = $this->total_time_taken();
+        
+        if ($minutes < 60) {
+            return "{$minutes} minute" . ($minutes !== 1 ? 's' : '');
+        }
+        
+        $hours = floor($minutes / 60);
+        $remainingMinutes = $minutes % 60;
+
+        return "{$hours} hour" . ($hours !== 1 ? 's' : '') . ($remainingMinutes ? " and {$remainingMinutes} minute" . ($remainingMinutes !== 1 ? 's' : '') : '');
+    }
+
 }

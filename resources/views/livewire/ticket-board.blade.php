@@ -99,7 +99,7 @@
                                 </div>
                                 <div class="flex flex-col space-y-2">
                                     <div class="flex flex-row justify-between items-center">
-                                        <p class="text-sm">Total Time Spent: {{$ticket->total_time_taken()}} Minutes</p>
+                                        <p class="text-sm">Total Time Spent: {{$ticket->total_time_formatted()}}</p>
                                 
                                         @if ($status->status_type != 1 && $status->status_type != 2)
                                             <button x-on:click="tracker = !tracker" class="fill-black dark:fill-white w-5 h-5">
@@ -117,7 +117,7 @@
                                     <div x-show="tracker" class="space-y-2">
                                         <div class="flex items-center space-x-4">
                                             <x-label for="time_taken_{{ $ticket->id }}" value="{{ __('Time Taken:') }}" class="w-1/4" />
-                                            <x-input wire:model.defer="timeTaken.{{ $ticket->id }}" id="time_taken_{{ $ticket->id }}" class="w-3/4" type="number" name="time_taken_{{ $ticket->id }}" autofocus />
+                                            <x-input wire:model.defer="timeTaken.{{ $ticket->id }}" id="time_taken_{{ $ticket->id }}" class="w-3/4" type="number" name="time_taken_{{ $ticket->id }}" autofocus placeholder="Time spent (in minutes)"/>
                                         </div>        
                                         @error('timeTaken.' . $ticket->id)
                                             <span class="text-red-500 text-sm mt-1">{{ $message }}</span>

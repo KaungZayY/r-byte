@@ -61,7 +61,7 @@
                 <div class="mt-4 flex items-center">
                     <x-label for="time_taken" value="{{ __('Total Minutes Taken') }}" class="mr-4 w-1/4" />
                     <x-input id="time_taken" class="block w-3/4 bg-gray-50 text-gray-500 dark:bg-gray-500 dark:text-gray-500" type="text" name="time_taken"
-                        value="{{ $ticket->total_time_taken() }}" readonly />
+                        value="{{ $ticket->total_time_formatted() }}" readonly />
                 </div>
             </div>
             <div class="mt-4">

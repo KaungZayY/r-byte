@@ -15,7 +15,7 @@
                         <div class="mt-4">
                             <x-label for="ticket_name" value="{{ __('Ticket Name') }}" />
                             <x-input id="ticket_name" class="block mt-1 w-full" type="text" name="ticket_name" />
-                            @error('backlog')
+                            @error('ticket_name')
                                 <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                             @enderror
                         </div>
@@ -31,11 +31,19 @@
                             @enderror
                         </div>
                         <div class="mt-4">
-                            <x-label for="duration" value="{{ __('Duration (in minutes)') }}" />
-                            <x-input id="duration" class="block mt-1 w-full" type="number" name="duration" autofocus />
-                            @error('duration')
-                                <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
-                            @enderror
+                            <x-label for="duration" value="{{ __('Duration') }}" />
+                            <div class="flex flex-row">
+                                <x-input id="duration" class="block mt-1 w-1/2 mr-2" type="number" name="duration_in_hour" autofocus placeholder="Hour" />
+                                <x-input id="duration" class="block mt-1 w-1/2" type="number" name="duration_in_minutes" autofocus placeholder="Minutes"/>
+                            </div>
+                            <div class="flex flex-row justify-end">
+                                @error('duration_in_hour')
+                                    <div class="text-red-500 text-sm mt-2 w-1/2">{{ $message }}</div>
+                                @enderror
+                                @error('duration_in_minutes')
+                                    <div class="text-red-500 text-sm mt-2 w-1/2">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                         <div class="mt-4">
                             <x-label for="description" value="{{ __('Description') }}" />

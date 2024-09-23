@@ -45,25 +45,23 @@ class TicketController extends Controller
         $sprint = Sprint::findOrFail($sprint_id);
         $statusId = $project->getToDoStatusId($project);
         $position = $sprint->getMaxPositionForTicket($statusId)+1;
+        $duration = $validated['duration_in_hour'] * 60 + $validated['duration_in_minutes'];
         try {
-            $ticket = Ticket::create([
+            Ticket::create([
                 'sprint_id' => $sprint->id,
                 'backlog_id' => $backlog->id,
                 'project_id' => $backlog->project_id,
                 'ticket_name' => $validated['ticket_name'],
                 'status_id' => $statusId,
                 'position' => $position,
-                'duration' => $validated['duration'],
+                'duration' => $duration,
                 'description' => $validated['description'],
                 'backlog_created_by' => $backlog->created_by,
                 'ticket_created_by' => auth()->id(),
             ]);
-            if(!$ticket){
-                $ticket->forceDelete();
-                return redirect()->route('backlogs',$project)->dangerBanner('An Unexpected Error Occured');
-            }
+
             $backlog->update(['status' => 'assigned']);
-            return redirect()->route('backlogs',$project)->banner('Ticket created.');
+            return redirect()->route('backlogs',$project)->banner('Ticket created.');  
         } 
         catch (\Exception $e) 
         {
@@ -85,6 +83,7 @@ class TicketController extends Controller
         $sprint_id = intval($validated['sprint_id']);
         $statusId = $project->getToDoStatusId($project);
         $position = $sprint->getMaxPositionForTicket($statusId)+1;
+        $duration = $validated['duration_in_hour'] * 60 + $validated['duration_in_minutes'];
         try 
         {
             Ticket::create([
@@ -93,7 +92,7 @@ class TicketController extends Controller
                 'ticket_name' => $validated['ticket_name'],
                 'status_id' => $statusId,
                 'position' => $position,
-                'duration' => $validated['duration'],
+                'duration' => $duration,
                 'description' => $validated['description'],
                 'ticket_created_by' => auth()->id(),
             ]);

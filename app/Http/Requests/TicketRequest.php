@@ -17,7 +17,8 @@ class TicketRequest extends FormRequest
         return [
             'ticket_name' => 'required|string|max:255',
             'sprint_id' => 'required|exists:sprints,id|numeric',
-            'duration' => 'required|integer',
+            'duration_in_hour' => 'nullable|integer|required_without:duration_in_minutes',
+            'duration_in_minutes' => 'nullable|integer|required_without:duration_in_hour',
             'description' => 'nullable|max:512'
         ];
     }
@@ -32,8 +33,11 @@ class TicketRequest extends FormRequest
         'sprint_id.required' => 'The sprint ID is required.',
         'sprint_id.exists' => 'The selected sprint ID is invalid.',
         
-        'duration.required' => 'The duration is required.',
-        'duration.integer' => 'The duration must be an integer value (in minutes).',
+        'duration_in_hour.integer' => 'The duration in hours must be an integer value.',
+        'duration_in_hour.required_without' => 'Provide approximate duration in hour.',
+        
+        'duration_in_minutes.integer' => 'The duration in minutes must be an integer value.',
+        'duration_in_minutes.required_without' => 'Provide approximate duration in minutes.',
         
         'description.max' => 'The description cannot exceed 512 characters.',
     ];
