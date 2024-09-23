@@ -39,61 +39,91 @@
                         </p>
                     @endif
                     <!-- Menu -->
-                    <button x-on:click="open = ! open">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" width="18" height="20" class="inline-block fill-black dark:fill-white">
+                    @if (viewContent($project, 'Statuses', 'Update') || viewContent($project, 'Statuses', 'Delete'))
+                        <button x-on:click="open = ! open">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" width="18" height="20" class="inline-block fill-black dark:fill-white">
+                                <path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/>
+                            </svg>
+                        </button>
+                        <div x-show="open" @click.away="open = false" class="flex flex-col absolute z-20 right-2 top-10 bg-white dark:bg-gray-800 shadow-lg p-2 rounded-lg">
+                            @if (viewContent($project, 'Statuses', 'Update'))
+                                <button title="Edit" wire:click="edit({{ $status->id }})" class="flex items-center hover:bg-gray-200 dark:hover:bg-gray-600 hover:rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 512 512">
+                                        <path fill="#22C55E" d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"/>
+                                    </svg>
+                                    <span>Edit</span>
+                                </button>
+                            @endif
+                            @if (viewContent($project, 'Statuses', 'Delete'))
+                                <button title="Remove" wire:click="destroy({{ $status->id }})" class="mt-1 flex items-center hover:bg-gray-200 dark:hover:bg-gray-600 hover:rounded-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 448 512">
+                                        <path fill="#EF4444" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+                                    </svg>
+                                    <span>Delete</span>
+                                </button>
+                            @endif
+                        </div>
+                    @else
+                    <button disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512" width="18" height="20" class="inline-block fill-gray-300 dark:fill-gray-600">
                             <path d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z"/>
                         </svg>
                     </button>
-                    <div x-show="open" @click.away="open = false" class="flex flex-col absolute z-20 right-2 top-10 bg-white dark:bg-gray-800 shadow-lg p-2 rounded-lg">
-                        <button title="Edit" wire:click="edit({{ $status->id }})" class="flex items-center hover:bg-gray-200 dark:hover:bg-gray-600 hover:rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 512 512">
-                                <path fill="#22C55E" d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"/>
-                            </svg>
-                            <span>Edit</span>
-                        </button>
-                        <button title="Remove" wire:click="destroy({{ $status->id }})" class="mt-1 flex items-center hover:bg-gray-200 dark:hover:bg-gray-600 hover:rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18" viewBox="0 0 448 512">
-                                <path fill="#EF4444" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/>
-                            </svg>
-                            <span>Delete</span>
-                        </button>
-                    </div>
+                    @endif
                 </div>                
                 <div wire:sortable-group.item-group="{{ $status->id }}" wire:sortable-group.options="{ animation: 100 }" class="flex flex-col space-y-4">
                     <!-- Tickets -->
                     @foreach ($tickets->where('status_id', $status->id) as $ticket)
                         <div wire:sortable-group.item="{{ $ticket->id }}" wire:key="task-{{ $ticket->id }}" class="min-h-40 bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md hover:bg-gray-50 dark:hover:bg-gray-600 transition-transform transform hover:scale-105 cursor-grab select-none">
                             <div x-data="{ tracker: false }" x-cloak wire:sortable-group.handle>
-                                <a href="{{route('tickets.detail',$ticket)}}" class="font-semibold text-gray-900 dark:text-gray-100 hover:underline">{{ $ticket->ticket_name }}</a>
+                                @if (viewContent($project, 'Tickets', 'Detail'))
+                                    <a href="{{route('tickets.detail',$ticket)}}" class="font-semibold text-gray-900 dark:text-gray-100 hover:underline">{{ $ticket->ticket_name }}</a>
+                                @else
+                                    <p class="font-semibold text-gray-900 dark:text-gray-100">{{ $ticket->ticket_name }}</p>
+                                @endif
                                 <p class="text-sm text-gray-600 dark:text-gray-400 h-4 overflow-hidden hover:max-h-none hover:overflow-auto transition-max-h duration-300">{{ $ticket->description }}</p>
                                 <!-- Teammates : -->
                                 <div class="mt-3">
                                     <p class="font-bold text-gray-800 dark:text-gray-200">Teammates:</p>
                                     <div class="flex space-x-2 mt-1 overflow-auto">
-                                        <form action="{{route('tickets.assign',['project'=>$project,'ticket'=>$ticket])}}" method="GET">
-                                            <button title="Assign">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-8 h-8 fill-gray-400 dark:fill-white">
+                                        @if (viewContent($project, 'Tickets', 'AssignTeammate'))
+                                            <form action="{{route('tickets.assign',['project'=>$project,'ticket'=>$ticket])}}" method="GET">
+                                                <button title="Assign">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-8 h-8 fill-gray-400 dark:fill-white">
+                                                        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button title="Assign" disabled>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-8 h-8 fill-gray-300 dark:fill-gray-500">
                                                     <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
                                                 </svg>
                                             </button>
-                                        </form>
+                                        @endif
                                         @foreach ($ticket->teammates as $teammate)
                                             <!-- Generate initials from the name -->
                                             @php
                                                 $initials = collect(explode(' ', $teammate->user->name))->map(fn($name) => Str::upper($name[0]))->join('');
                                             @endphp
-                                            <div x-data="{ remove: false }" x-cloak>
-                                                <div x-on:mouseover = "remove = true" x-on:mouseout = "remove = false">
-                                                    <div x-show="! remove" class="min-w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold text-sm">
-                                                        {{ $initials }}
+                                            @if (viewContent($project, 'Tickets', 'RemoveTeammate'))
+                                                <div x-data="{ remove: false }" x-cloak>
+                                                    <div x-on:mouseover = "remove = true" x-on:mouseout = "remove = false">
+                                                        <div x-show="! remove" class="min-w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold text-sm">
+                                                            {{ $initials }}
+                                                        </div>
+                                                        <button wire:click='removeAssignee({{$ticket}},{{$teammate}})' title="Remove" x-show="remove" class="min-w-8 h-8 flex items-center justify-center rounded-full bg-red-300 dark:bg-red-100 fill-red-600 text-white font-bold text-sm">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="18" width="18">
+                                                                <path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM472 200l144 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-144 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/>
+                                                            </svg>
+                                                        </button>
                                                     </div>
-                                                    <button wire:click='removeAssignee({{$ticket}},{{$teammate}})' title="Remove" x-show="remove" class="min-w-8 h-8 flex items-center justify-center rounded-full bg-red-300 dark:bg-red-100 fill-red-600 text-white font-bold text-sm">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" height="18" width="18">
-                                                            <path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM472 200l144 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-144 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/>
-                                                        </svg>
-                                                    </button>
                                                 </div>
-                                            </div>
+                                            @else
+                                                <div class="min-w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold text-sm">
+                                                    {{ $initials }}
+                                                </div>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>

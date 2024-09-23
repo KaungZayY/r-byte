@@ -115,8 +115,8 @@
                                             </button>
                                         </form>
                                     </div>
-                                    <span class="ml-2 mr-2">|</span>
                                     @if (viewContent($project, 'Sprints', 'Update'))
+                                        <span class="ml-2 mr-2">|</span>
                                         <div class="inline-block">
                                             <form action="{{ route('sprints.edit', ['project' => $project, 'sprint' => $sprint]) }}" method="GET">
                                                 <button title="Edit">

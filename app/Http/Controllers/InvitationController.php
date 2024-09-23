@@ -32,7 +32,7 @@ class InvitationController extends Controller
 
     public function sentInvite(Team $team, Request $request)
     {
-        $this->pHelper->authorizeUser($project,'Teammates','Invite');
+        $this->pHelper->authorizeUser($team->project,'Teammates','Invite');
         $request->validate(['email'=>'required|email']);
         $user = User::where('email', $request->email)->first();
         if (!$user) {

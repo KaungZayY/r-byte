@@ -26,20 +26,21 @@ class TicketController extends Controller
 
     public function detail(Ticket $ticket)
     {
+        $this->pHelper->authorizeUser($ticket->project,'Tickets','Detail');
         $ticket->load('project','sprint','backlog','status','backlog_created_by_user','ticket_created_by_user');
         return view('tickets.detail-ticket',compact('ticket'));
     }
 
     public function create(Project $project, Backlog $backlog)
     {
-        $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');
+        $this->pHelper->authorizeUser($project,'Tickets','Create');
         $sprints = $project->sprints->all();
         return view('tickets.create-ticket',compact('project','backlog','sprints'));
     }
 
     public function store(TicketRequest $request, Project $project, Backlog $backlog)
     {
-        $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');
+        $this->pHelper->authorizeUser($project,'Tickets','Create');
         $validated = $request->validated();
         $sprint_id = intval($validated['sprint_id']);
         $sprint = Sprint::findOrFail($sprint_id);
@@ -71,14 +72,14 @@ class TicketController extends Controller
 
     public function directCreate(Project $project, Sprint $sprint)
     {
-        $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');
+        $this->pHelper->authorizeUser($project,'Tickets','Create');
         $sprints = $project->sprints;
         return view('tickets.direct-create-ticket',compact('project','sprint','sprints'));
     }
 
     public function directStore(Project $project, Sprint $sprint, TicketRequest $request)
     {
-        $this->pHelper->authorizeUser($project,'Backlogs','CreateTicket');
+        $this->pHelper->authorizeUser($project,'Tickets','Create');
         $validated = $request->validated();
         $sprint_id = intval($validated['sprint_id']);
         $statusId = $project->getToDoStatusId($project);
@@ -107,6 +108,7 @@ class TicketController extends Controller
 
     public function addTeammate(Project $project, Ticket $ticket)
     {
+        $this->pHelper->authorizeUser($project,'Tickets','AssignTeammate');
         return view('tickets.assign-teammate',compact('project','ticket'));
     }
 }

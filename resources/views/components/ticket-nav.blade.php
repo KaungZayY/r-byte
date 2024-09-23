@@ -13,7 +13,7 @@
         <span>{{ $sprint->sprint_name }}</span>
         </div>
         <div class="flex items-end space-x-2">
-            @if (viewContent($project, 'Backlogs', 'Create'))
+            @if (viewContent($project, 'Tickets', 'Create'))
                 <form action="{{ route('tickets.direct-create', ['project' => $project, 'sprint' => $sprint]) }}"
                     method="GET">
                     <button title="Create New Ticket" type="submit"

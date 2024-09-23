@@ -2,12 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Helpers\PermissionHelper;
 use App\Models\Ticket;
 use Livewire\Component;
 
 class DetailTicket extends Component
 {
     public $ticket;
+    public $project;
     public $sprint_id;
     public $ticket_name;
     public $duration;
@@ -36,6 +38,7 @@ class DetailTicket extends Component
     public function mount($ticket)
     {
         $this->ticket = $ticket;
+        $this->project = $this->ticket->project;
         $this->sprints = $ticket->project->sprints;
         $this->ticket_name = $ticket->ticket_name;
         $this->sprint_id = $ticket->sprint_id;
@@ -44,13 +47,15 @@ class DetailTicket extends Component
         $this->description = $ticket->description;
     }
 
-    public function render()
+    public function render(PermissionHelper $pHelper)
     {
+        $pHelper->authorizeUser($this->project,'Tickets','Detail');
         return view('livewire.detail-ticket');
     }
 
-    public function update()
+    public function update(PermissionHelper $pHelper)
     {
+        $pHelper->authorizeUser($this->project,'Tickets','Update');
         $validated = $this->validate();
         try {
 
@@ -65,8 +70,9 @@ class DetailTicket extends Component
         return redirect()->route('tickets', ['project' => $this->ticket->project,'sprint' => $this->default_sprint_id]);
     }
 
-    public function destroy(Ticket $ticket)
+    public function destroy(Ticket $ticket, PermissionHelper $pHelper)
     {
+        $pHelper->authorizeUser($this->project,'Tickets','Delete');
         $deleted = $ticket->delete();
         if(!$deleted){
             session()->flash('flash.banner', 'Action Failed.');

@@ -38,7 +38,13 @@ class PermissionHelper{
     {
         $user = Auth::user();
         $role_id = Cache::remember("user_{$user->id}_project_{$project->id}_role_is", now()->addMinutes(30), function () use ($user, $project) {
-            return $user->roleForProject($project)->id;
+            $user_role = $user->roleForProject($project)?->id;
+            if(isset($user_role)){
+                return $user_role;
+            }
+            else{
+                return 0;
+            }
         });
         if ($role_id) {
                 $permissions = Cache::remember("role_{$role_id}_permissions", now()->addMinutes(30), function () use ($role_id) {

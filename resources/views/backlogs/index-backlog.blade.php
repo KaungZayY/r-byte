@@ -72,7 +72,7 @@
                         @foreach ($backlogs as $backlog)
                             <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
                                 <td class="px-4 py-4 max-w-xs text-sm font-medium text-gray-900 dark:text-white text-center">
-                                    @if ($backlog->status === 'pending' && viewContent($project, 'Backlogs', 'CreateTicket'))
+                                    @if ($backlog->status === 'pending' && viewContent($project, 'Tickets', 'Create'))
                                         <form action="{{route('tickets.create',['project' => $project, 'backlog' => $backlog])}}" method="GET">
                                             <button title="Create Ticket">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24">

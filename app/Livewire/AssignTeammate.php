@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Helpers\PermissionHelper;
 use App\Models\Team;
 use App\Models\Teammate;
 use Livewire\Component;
@@ -33,8 +34,9 @@ class AssignTeammate extends Component
         $this->project = $project;
     }
 
-    public function render()
+    public function render(PermissionHelper $pHelper)
     {
+        $pHelper->authorizeUser($this->project,'Tickets','AssignTeammate');
         $teams = $this->project->teams;
         return view('livewire.assign-teammate',compact('teams'));
     }
@@ -45,8 +47,9 @@ class AssignTeammate extends Component
         return $this->teammates = $team->teammates;
     }
 
-    public function submit()
+    public function submit(PermissionHelper $pHelper)
     {
+        $pHelper->authorizeUser($this->project,'Tickets','AssignTeammate');
         $this->validate();
         $teammate = Teammate::findOrFail($this->teammate_id);
         try {

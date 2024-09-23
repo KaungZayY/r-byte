@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Helpers\PermissionHelper;
 use App\Models\Status;
 use App\Models\Teammate;
 use App\Models\Ticket;
@@ -20,17 +21,21 @@ class TicketBoard extends Component
     public $editValues = [];
     public $timeTaken = [];
 
+    public function mount($project, $sprint)
+    {
+        $this->project = $project;
+        $this->sprint = $sprint;
+    }
+
     public function render()
     {
-        $sprint = $this->sprint;
-        $project = $this->project;
-        $statuses = $project->statuses()->orderBy('position')->get();
+        $statuses = $this->project->statuses()->orderBy('position')->get();
         foreach ($statuses as $status) 
         {
             $this->editValues[$status->id] = $status->status;
         }
-        $tickets = $sprint->tickets()->with('teammates.user')->orderBy('position')->get();
-        return view('livewire.ticket-board',compact('statuses','tickets','sprint','project'));
+        $tickets = $this->sprint->tickets()->with('teammates.user')->orderBy('position')->get();
+        return view('livewire.ticket-board',compact('statuses','tickets'));
     }
 
     public function updateStatusOrder($groupedStatuses)
@@ -115,8 +120,9 @@ class TicketBoard extends Component
         }
     }
 
-    public function destroy(Status $status)
+    public function destroy(Status $status,PermissionHelper $pHelper)
     {
+        $pHelper->authorizeUser($this->project,'Statuses','Delete');
         if ($status->exists && !$status->tickets()->exists()) {
             $status->delete();
             $this->banner('Column Removed.');
@@ -126,13 +132,15 @@ class TicketBoard extends Component
         }
     }
 
-    public function edit(Status $status)
+    public function edit(Status $status,PermissionHelper $pHelper)
     {
+        $pHelper->authorizeUser($this->project,'Statuses','Update');
         $this->editStatusId = $status->id;
     }
 
-    public function update(Status $status)
+    public function update(Status $status,PermissionHelper $pHelper)
     {
+        $pHelper->authorizeUser($this->project,'Tickets','Update');
         $this->validate([
             'editValues.' . $status->id => 'required|string|max:255',
         ]);
@@ -147,8 +155,9 @@ class TicketBoard extends Component
         $this->editStatusId = null;
     }
 
-    public function removeAssignee(Ticket $ticket, Teammate $teammate)
+    public function removeAssignee(Ticket $ticket, Teammate $teammate,PermissionHelper $pHelper)
     {
+        $pHelper->authorizeUser($this->project,'Tickets','RemoveTeammate');
         $ticket->teammates()->detach($teammate);
     }
 }

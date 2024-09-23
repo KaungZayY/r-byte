@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PermissionHelper;
 use App\Http\Requests\StatusRequest;
 use App\Models\Project;
 use App\Models\Sprint;
@@ -10,13 +11,23 @@ use Illuminate\Http\Request;
 
 class StatusController extends Controller
 {
+    protected $pHelper;
+
+    public function __construct()
+    {
+        $this->pHelper = new PermissionHelper();
+    }
+
     public function create(Project $project, Sprint $sprint)
     {
+        $this->pHelper->authorizeUser($project,'Statuses','Create');
         return view('statuses.create-status',compact('project','sprint'));
     }
 
     public function store(StatusRequest $request, Project $project, Sprint $sprint)
     {
+        $this->pHelper->authorizeUser($project,'Statuses','Create');
+        
         $validated = $request->validated();
         $position = Status::maxPosition($project->id) + 1;
         try {

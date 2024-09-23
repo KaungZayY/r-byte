@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('position');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
