@@ -11,11 +11,10 @@
                     @method('PATCH')
                     <div class="px-16 md:px-40 lg:px-80 py-4">
                         <div class="mt-4">
-                            <x-label for="role_id" value="{{ __('Select Role for ') }}' {{$teammate->user->name}} '" class="text-2xl" />
+                            <x-label for="role_id" value="{{ __('Update Role for ') }}' {{$user->name}} '" class="text-2xl" />
                             <select id="role_id" name="role_id" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="">{{ __('---') }}</option>
                                 @foreach($roles as $role)
-                                    <option value="{{ $role->id }}">{{ $role->role_name }}</option>
+                                    <option value="{{ $role->id }}" {{ ($assignedRole && $assignedRole->id == $role->id) ? 'selected' : '' }}>{{ $role->role_name }}</option>
                                 @endforeach
                             </select>
                             @error('role_id')
@@ -23,11 +22,11 @@
                             @enderror
                         </div>
                         <div class="mt-2 flex justify-end">
-                            <x-button-cancel :cancelRoute="route('teammates',['project' => $project, 'team' => $teammate->team])">
+                            <x-button-cancel :cancelRoute="route('teammates',['project' => $project, 'team' => $team])">
                                 {{__('Cancel')}}
                             </x-button-cancel>
                             <x-button class="ms-2">
-                                {{ __('Assign') }}
+                                {{ __('Reassign') }}
                             </x-button>
                         </div>
                     </div>

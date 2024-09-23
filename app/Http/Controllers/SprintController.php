@@ -2,16 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PermissionHelper;
 use App\Http\Requests\SprintRequest;
 use App\Models\Project;
 use App\Models\Sprint;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SprintController extends Controller
 {
+    protected $pHelper;
+
+    public function __construct()
+    {
+        $this->pHelper = new PermissionHelper();
+    }
+
     public function index(Project $project)
     {
+        $this->pHelper->authorizeUser($project,'Sprints','View');
         $sprints = $project->sprints;
         $count = $sprints->count();
         return view('sprints.index-sprint',compact('project','sprints','count'));
@@ -19,11 +29,13 @@ class SprintController extends Controller
 
     public function create(Project $project)
     {
+        $this->pHelper->authorizeUser($project,'Sprints','Create');
         return view('sprints.create-sprint',compact('project'));
     }
 
     public function store(SprintRequest $request, Project $project)
     {
+        $this->pHelper->authorizeUser($project,'Sprints','Create');
         $validated = $request->validated();
         try {
             $sprintStartDate = Carbon::parse($validated['sprint_start_date']);
@@ -58,6 +70,7 @@ class SprintController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('sprints',$project)->dangerBanner('An Error Occured');
         }
     }
@@ -65,6 +78,7 @@ class SprintController extends Controller
     public function startSprint(Sprint $sprint)
     {
         $project = $sprint->project;
+        $this->pHelper->authorizeUser($project,'Sprints','StartSprint');
         Sprint::where('project_id', $project->id)->where('status', 'active')->update(['status' => 'completed']);
         $sprint->status = 'active';
         $sprint->save();
@@ -73,11 +87,13 @@ class SprintController extends Controller
 
     public function edit(Project $project, Sprint $sprint)
     {
+        $this->pHelper->authorizeUser($project,'Sprints','Update');
         return view('sprints.edit-sprint',compact('project','sprint'));
     }
 
     public function update(SprintRequest $request, Project $project, Sprint $sprint)
     {
+        $this->pHelper->authorizeUser($project,'Sprints','Update');
         $validated = $request->validated();
         try 
         {
@@ -110,12 +126,14 @@ class SprintController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('sprints.edit', [$project, $sprint])->dangerBanner('An Error Occurred');
         }
     }
 
     public function destroy(Sprint $sprint)
     {
+        $this->pHelper->authorizeUser($sprint->project,'Sprints','Delete');
         try 
         {
             if ($sprint->status === 'inactive') 
@@ -128,12 +146,14 @@ class SprintController extends Controller
         } 
         catch (\Exception $e) 
         {
+            Log::error($e->getMessage());
             return redirect()->route('sprints',$sprint->project)->dangerBanner('An Error Occured');
         }
     }
 
     public function archives(Project $project)
     {
+        $this->pHelper->authorizeUser($project,'Sprints','Archives');
         $sprints = $project->sprints()->onlyTrashed()->get();
         $count = $project->sprints()->onlyTrashed()->count();
         return view('sprints.archives-sprint',compact('sprints','project','count'));
@@ -141,6 +161,7 @@ class SprintController extends Controller
 
     public function restore(Project $project, $id)
     {
+        $this->pHelper->authorizeUser($project,'Sprints','Restore');
         $sprint = Sprint::withTrashed()->findOrFail($id);
         $sprint->restore();
         return redirect()->route('sprints', $project)->banner('Sprint Restored.');
@@ -150,6 +171,7 @@ class SprintController extends Controller
     {
         $sprint = Sprint::withTrashed()->findOrFail($id);
         $project = $sprint->project;
+        $this->pHelper->authorizeUser($project,'Sprints','ForceDelete');
         $sprint->forceDelete();
         return redirect()->route('sprints.archives', $project)->banner('Sprint Deleted.');
     }

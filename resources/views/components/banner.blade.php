@@ -4,7 +4,7 @@
             :class="{ 'bg-indigo-500': style == 'success', 'bg-red-700': style == 'danger', 'bg-gray-500': style != 'success' && style != 'danger' }"
             style="display: none;"
             x-show="show && message"
-            x-init="setTimeout(() => show = false, 4000)"
+            x-effect="if (show) setTimeout(function() {show = false}, 3000)"
             x-on:banner-message.window="
                 style = event.detail.style;
                 message = event.detail.message;

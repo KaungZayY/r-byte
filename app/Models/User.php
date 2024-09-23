@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -58,4 +59,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function roleForProject(Project $project)
+    {
+        return DB::table('user_project_role')
+            ->where('user_id', $this->id)
+            ->where('user_project_role.project_id', $project->id)
+            ->join('roles', 'roles.id', '=', 'user_project_role.role_id')
+            ->select('roles.*')
+            ->first();
+    }
 }

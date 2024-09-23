@@ -2,11 +2,15 @@
 
 use App\Http\Controllers\BacklogController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SprintController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeammateController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +56,17 @@ Route::get('/project/{project}/backlogs/archives',[BacklogController::class,'arc
 Route::delete('/backlogs/force-delete{id}',[BacklogController::class,'forceRemove'])->name('backlogs.force');
 Route::patch('/backlogs/restore{id}', [BacklogController::class, 'restore'])->name('backlogs.restore');
 
+Route::get('/project/{project}/sprint/{sprint}/tickets',[TicketController::class,'index'])->name('tickets');
+Route::get('/ticket/{ticket}/detail',[TicketController::class,'detail'])->name('tickets.detail');
+Route::get('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'create'])->name('tickets.create');
+Route::post('/project/{project}/backlog/{backlog}/create-ticket',[TicketController::class,'store']);
+Route::get('/project/{project}/sprint/{sprint}/tickets/create',[TicketController::class,'directCreate'])->name('tickets.direct-create');
+Route::put('/project/{project}/sprint/{sprint}/tickets/create',[TicketController::class,'directStore']);
+Route::get('/project/{project}/ticket/{ticket}/assign',[TicketController::class,'addTeammate'])->name('tickets.assign');
+
+Route::get('/project/{project}/sprint/{sprint}/statuses/create',[StatusController::class,'create'])->name('statuses.create');
+Route::post('/project/{project}/sprint/{sprint}/statuses/create',[StatusController::class,'store']);
+
 Route::get('/project/{project}/teams/index',[TeamController::class,'index'])->name('teams');
 Route::get('/project/{project}/teams/create',[TeamController::class,'create'])->name('teams.create');
 Route::post('project/{project}/teams/create',[TeamController::class,'store']);
@@ -62,21 +77,17 @@ Route::get('/project/{project}/teams/archives',[TeamController::class,'archives'
 Route::delete('/teams/force-delete{id}',[TeamController::class,'forceRemove'])->name('teams.force');
 Route::patch('/teams/restore{id}', [TeamController::class, 'restore'])->name('teams.restore');
 
-Route::get('project/{project}/team/{team}/members',[TeammateController::class,'index'])->name('teammates');
-Route::get('/team/members/assign{teammate}',[TeammateController::class,'addRole'])->name('roles.assign');
-Route::patch('/team/members/assign{teammate}',[TeammateController::class,'assignRole']);
+Route::get('/project/{project}/team/{team}/members',[TeammateController::class,'index'])->name('teammates');
 Route::delete('/teams/members/remove{teammate}',[TeammateController::class,'destroy'])->name('teammates.delete');
 
 Route::get('/team/members/add{team}',[InvitationController::class,'index'])->name('invites');
 Route::post('/team/members/add{team}',[InvitationController::class,'sentInvite']);
 Route::get('/accept-invite/{token}', [InvitationController::class, 'acceptInvite'])->name('invite.accept');
 
-Route::get('/project{project}/team{team}/roles/add',[RoleController::class,'create'])->name('roles.create');
-Route::post('/project{project}/team{team}/roles/add',[RoleController::class,'store']);
 
 Route::get('/project/{project}/sprints',[SprintController::class,'index'])->name('sprints');
-Route::get('/project/{project}/sprint/create',[SprintController::class,'create'])->name('sprints.create');
-Route::post('/project/{project}/sprint/create',[SprintController::class,'store']);
+Route::get('/project/{project}/sprints/create',[SprintController::class,'create'])->name('sprints.create');
+Route::post('/project/{project}/sprints/create',[SprintController::class,'store']);
 Route::get('/project/{project}/sprint/{sprint}/edit',[SprintController::class,'edit'])->name('sprints.edit');
 Route::put('/project/{project}/sprint/{sprint}/edit',[SprintController::class,'update']);
 Route::put('/sprint/{sprint}/start',[SprintController::class,'startSprint'])->name('sprints.start');
@@ -84,3 +95,20 @@ Route::delete('/sprint/{sprint}/delete',[SprintController::class,'destroy'])->na
 Route::get('/project/{project}/sprints/archives',[SprintController::class,'archives'])->name('sprints.archives');
 Route::patch('/project/{project}/sprints{id}/restore', [SprintController::class, 'restore'])->name('sprints.restore');
 Route::delete('/sprint/{sprint}/force-delete',[SprintController::class,'forceRemove'])->name('sprints.force');
+
+Route::get('/project/{project}/roles/',[RoleController::class,'index'])->name('roles');
+Route::get('/project/{project}/roles/create',[RoleController::class,'create'])->name('roles.create');
+Route::post('/project/{project}/roles/create',[RoleController::class,'store']);
+Route::get('/project/{project}/role/{role}/edit',[RoleController::class,'edit'])->name('roles.edit');
+Route::put('/project/{project}/role/{role}/edit',[RoleController::class,'update']);
+Route::delete('/project/{project}/role/{role}/delete',[RoleController::class,'destroy'])->name('roles.delete');
+Route::get('/project/{project}/roles/archives',[RoleController::class,'archives'])->name('roles.archives');
+Route::patch('/project/{project}/roles{id}/restore', [RoleController::class, 'restore'])->name('roles.restore');
+Route::delete('/project/{project}/roles{id}/force-delete',[RoleController::class,'forceRemove'])->name('roles.force');
+
+Route::get('/project/{project}/team/{team}/member/{user}/assign-role',[UserRoleController::class,'addRole'])->name('roles.assign');
+Route::post('/project/{project}/team/{team}/member/{user}/assign-role',[UserRoleController::class,'assignRole']);
+Route::get('/project/{project}/team/{team}/member/{user}/update-role',[UserRoleController::class,'updateRole'])->name('roles.reassign');
+Route::patch('/project/{project}/team/{team}/member/{user}/update-role',[UserRoleController::class,'reassignRole']);
+
+Route::get('/project/{project}/role/{role}/permissions',[PermissionController::class,'index'])->name('permissions');

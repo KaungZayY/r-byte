@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 text-center leading-tight">
-            {{ __('Add Role to ') }}{{$team->team_name}}
+            {{ __('Add Role to ') }}{{$project->project_name}}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-black overflow-hidden shadow-xl sm:rounded-lg">
-                <form action="#" method="POST">
+                <form action="{{route('roles.create', $project)}}" method="POST">
                     @csrf
                     <div class="px-16 md:px-40 lg:px-80">
                         <div class="mt-4">
@@ -23,7 +23,7 @@
                             <x-text-area name="description" id="description" rows="4" class="w-full px-4 py-2"></x-text-area>
                         </div>
                         <div class="flex items-center justify-end mt-4 mb-2">
-                            <x-button-cancel :cancelRoute="route('teammates',['project' => $project, 'team' => $team])">
+                            <x-button-cancel :cancelRoute="route('roles',$project)">
                                 {{__('Cancel')}}
                             </x-button-cancel>
             

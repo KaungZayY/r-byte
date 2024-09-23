@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PermissionHelper;
 use App\Mail\TeamInvitationMail;
 use App\Models\Invitation;
 use App\Models\Team;
@@ -9,19 +10,30 @@ use App\Models\Teammate;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
 class InvitationController extends Controller
 {
+    protected $pHelper;
+
+    public function __construct()
+    {
+        $this->pHelper = new PermissionHelper();
+    }
+
+
     public function index(Team $team)
     {
         $project = $team->project;
+        $this->pHelper->authorizeUser($project,'Teammates','Invite');
         return view('invitations.create-invitation',compact('team','project'));
     }
 
     public function sentInvite(Team $team, Request $request)
     {
+        $this->pHelper->authorizeUser($team->project,'Teammates','Invite');
         $request->validate(['email'=>'required|email']);
         $user = User::where('email', $request->email)->first();
         if (!$user) {
@@ -51,6 +63,7 @@ class InvitationController extends Controller
             return redirect()->route('teammates',[$team->project, $team])->banner('Invitation sent successfully.');
         } catch (\Exception $e) {
             // dd($e);
+            Log::error($e->getMessage());
             return redirect()->route('invites',$team)->dangerBanner('Cannot Invite this user at the moment');
         }
     }
@@ -82,6 +95,7 @@ class InvitationController extends Controller
 
         } catch (\Exception $e) {
             $messageType = 'invalid';
+            Log::error($e->getMessage());
             return view('invitations.message-invitation',compact('teamName'));
         }
     }

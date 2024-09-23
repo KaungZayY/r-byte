@@ -34,4 +34,14 @@ class Sprint extends Model
     {
         self::where('project_id', $projectId)->where('status', 'active')->update(['status' => 'completed']);
     }
+
+    public function getMaxPositionForTicket($statusId): int
+    {
+        return Ticket::where('status_id', $statusId)->max('position') ?? 0;
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'sprint_id','id');
+    }
 }

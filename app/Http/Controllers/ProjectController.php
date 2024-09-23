@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectDeleteRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use Database\Seeders\StatusSeeder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -18,19 +20,22 @@ class ProjectController extends Controller
     {
         $validated = $request->validated();
         try {
-            Project::create([
+            $project = Project::create([
                 'project_name' => $validated['project_name'],
                 'description' => $validated['description'],
                 'start_date' => $validated['start_date'],
                 'end_date' => $validated['end_date'],
                 'created_by' => auth()->id(),
             ]);
-            
+            $seeder = new StatusSeeder();
+            $seeder->run($project);
             return redirect()->route('dashboard')->banner('New project created successfully.');
 
         } 
         catch (\Exception $e) 
         {
+            // dd($e);
+            Log::error($e->getMessage());
             return redirect()->route('dashboard')->dangerBanner('An Error Occured');
         }
     }
@@ -47,6 +52,7 @@ class ProjectController extends Controller
             return redirect()->route('dashboard')->banner('Project Detail Updated.');
         }
         catch(\Exception $e){
+            Log::error($e->getMessage());
             return redirect()->route('dashboard')->dangerBanner('Cannot Update the Project Detail');
         }
     }
@@ -70,12 +76,14 @@ class ProjectController extends Controller
             $project->delete();
             return redirect()->route('dashboard')->banner('Project Deleted');
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             return redirect()->route('dashboard')->dangerBanner('Cannot Delete the Project');
         }
     }
 
     public function detail(Project $project)
     {
-        return view('projects.details-project',compact('project'));
+        $sprint = $project->sprints()->where('status','active')->first();
+        return view('projects.details-project',compact('project','sprint'));
     }
 }
