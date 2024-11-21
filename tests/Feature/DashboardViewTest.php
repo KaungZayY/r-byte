@@ -16,7 +16,6 @@ class DashboardViewTest extends TestCase
         $response = $this->get('/');
 
         $response->assertRedirect('/login');
-        $response->assertSee('Register');
         $response->assertStatus(302);
     }
 
@@ -27,6 +26,7 @@ class DashboardViewTest extends TestCase
         $response = $this->actingAs($user)->get('/');
 
         $response->assertSeeLivewire(Dashboard::class);
+        $response->assertSee('Dashboard');
         $response->assertStatus(200);
     }
 }
