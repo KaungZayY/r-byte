@@ -29,23 +29,23 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
     - name: Run migrations
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
-        run: php artisan migrate
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan migrate
     - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.18.0'
-    - name: npm install
-        run: |
-          npm --version
-          npm install
-          npm run build
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.18.0'
+    - name: Install and Build NPM Dependencies
+      run: |
+        npm --version
+        npm install
+        npm run build
     - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: laravel-failure-artifact
-          path: storage/logs/laravel.log
-    - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
+      if: failure()
+      with:
+        name: laravel-failure-artifact
+        path: storage/logs/laravel.log
+    - name: Execute Tests (Unit and Feature tests) via PHPUnit/Pest
       run: php artisan test
