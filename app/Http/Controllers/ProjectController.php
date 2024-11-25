@@ -2,15 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PermissionHelper;
 use App\Http\Requests\ProjectDeleteRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Database\Seeders\StatusSeeder;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
+    protected $pHelper;
+
+    public function __construct()
+    {
+        $this->pHelper = new PermissionHelper();
+    }
+
     public function create()
     {
         return view('projects.create-project');
@@ -48,6 +58,9 @@ class ProjectController extends Controller
     public function update(ProjectRequest $request, Project $project)
     {
         try{
+            if(!$this->pHelper->isProjectOwner($project)){
+                throw new Exception('User Id '.Auth::user()->id.' was trying to update the non owner Project Id '.$project->id);
+            }
             $project->update($request->validated());
             return redirect()->route('dashboard')->banner('Project Detail Updated.');
         }
